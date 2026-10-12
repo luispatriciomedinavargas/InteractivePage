@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self'; script-src 'self'; font-src 'self'; connect-src 'self'">
+  <title>Aplicación Interactiva</title>
+  <link rel="stylesheet" href="estilos.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+<div class="pagina">
+
+  <header class="cabecera">
+    <span class="cabecera-logo" aria-hidden="true">
+      <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M24 11v29M14 40h20M10 14h28"/>
+        <circle cx="24" cy="8.5" r="2.5"/>
+        <path d="M10 14l-6 13h12zM38 14l-6 13h12z"/>
+        <path d="M4 27a6 4 0 0 0 12 0M32 27a6 4 0 0 0 12 0"/>
+      </svg>
+    </span>
+    <div>
+      <h1 class="cabecera-titulo" id="marca-titulo">Aplicación Interactiva</h1>
+      <p class="cabecera-subtitulo" id="marca-subtitulo">¿Culpable o Inocente?</p>
+    </div>
+  </header>
+
+  <main class="contenido">
+
+    <!-- Cargando -->
+    <section class="pantalla" id="pantalla-cargando">
+      <p class="cargando">Cargando...</p>
+    </section>
+
+    <!-- Error de configuración -->
+    <section class="pantalla" id="pantalla-error" hidden>
+      <div class="caja caja-angosta caja-error">
+        <div class="caja-titulo">Atención operador</div>
+        <div class="caja-cuerpo">
+          <h2>No se puede iniciar la aplicación</h2>
+          <p>Revise la configuración al principio de <b>app.js</b>:</p>
+          <ul id="lista-errores"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Inicio de sesión -->
+    <section class="pantalla" id="pantalla-inicio" hidden>
+      <div class="caja caja-login">
+        <div class="caja-titulo">Iniciar sesión</div>
+        <form class="caja-cuerpo login" id="formulario-login" autocomplete="off" novalidate>
+          <p class="login-indicacion">Ingrese sus datos para acceder.</p>
+
+          <div class="login-error" id="login-error" role="alert" hidden>Usuario o contraseña incorrectos.</div>
+
+          <table class="login-campos">
+            <tr>
+              <th><label for="login-usuario">Usuario:</label></th>
+              <td><input type="text" class="campo" id="login-usuario" name="usuario" autocomplete="off" spellcheck="false" autocapitalize="off"></td>
+            </tr>
+            <tr>
+              <th><label for="login-contrasena">Contraseña:</label></th>
+              <td><input type="password" class="campo" id="login-contrasena" name="contrasena" autocomplete="off"></td>
+            </tr>
+            <tr>
+              <th></th>
+              <td><button type="submit" class="boton boton-azul">Ingresar &raquo;</button></td>
+            </tr>
+          </table>
+
+          <div class="aviso-operador" id="aviso-operador" hidden></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Video y decisión -->
+    <section class="pantalla" id="pantalla-video" hidden>
+      <div class="caja caja-reproductor">
+        <div class="caja-titulo" id="video-titulo">Caso 1 de 18</div>
+
+        <div class="reproductor">
+          <div class="reproductor-imagen">
+            <video id="video" playsinline preload="auto" disablepictureinpicture disableremoteplayback controlslist="nodownload nofullscreen noplaybackrate noremoteplayback"></video>
+
+            <div class="video-prueba" id="video-prueba" hidden>
+              <p class="video-prueba-etiqueta">Video de prueba</p>
+              <p class="video-prueba-detalle" id="video-prueba-detalle"></p>
+            </div>
+
+            <button type="button" class="boton boton-azul boton-reproducir" id="boton-reproducir" hidden>&#9658; Reproducir</button>
+          </div>
+
+          <div class="reproductor-controles" aria-hidden="true">
+            <span class="reproductor-icono">&#9658;</span>
+            <span class="reproductor-pista"><span class="reproductor-avance" id="video-avance"></span></span>
+            <span class="reproductor-tiempo" id="video-tiempo">0:00 / 0:00</span>
+          </div>
+        </div>
+
+        <div class="veredicto">
+          <p class="veredicto-espera" id="veredicto-espera">Mirá el video completo. Al terminar vas a tener 1:30 para decidir.</p>
+
+          <div class="veredicto-activo" id="veredicto-activo" hidden>
+            <button type="button" class="boton boton-rojo boton-veredicto" data-eleccion="culpable">Culpable</button>
+
+            <div class="reloj" id="reloj" role="timer">
+              <span class="reloj-etiqueta">Tiempo restante</span>
+              <span class="reloj-lcd" id="reloj-tiempo">1:30</span>
+              <span class="medidor medidor-reloj" aria-hidden="true"><span class="medidor-relleno" id="reloj-relleno"></span></span>
+              <span class="reloj-estado" id="decision-estado" aria-live="polite"></span>
+            </div>
+
+            <button type="button" class="boton boton-verde boton-veredicto" data-eleccion="inocente">Inocente</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notificación entre bloques -->
+    <section class="pantalla" id="pantalla-notificacion" hidden>
+      <div class="caja caja-angosta">
+        <div class="caja-titulo" id="notificacion-encabezado">Bloque 1 completado</div>
+        <div class="caja-cuerpo notificacion">
+          <span class="icono-info" aria-hidden="true">i</span>
+          <div>
+            <h2 id="notificacion-titulo"></h2>
+            <p class="notificacion-mensaje" id="notificacion-mensaje"></p>
+            <button type="button" class="boton boton-azul boton-grande" id="boton-continuar">Continuar &raquo;</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Resultado final -->
+    <section class="pantalla" id="pantalla-final" hidden>
+      <div class="caja caja-angosta">
+        <div class="caja-titulo">Resultado final</div>
+        <div class="caja-cuerpo">
+          <div class="final-puntaje-caja">
+            <span class="final-etiqueta">Tu puntaje</span>
+            <span class="final-puntaje" id="final-puntaje">0</span>
+          </div>
+
+          <table class="tabla">
+            <thead>
+              <tr><th>Bloque</th><th>Aciertos</th><th>Errores</th><th>Sin respuesta</th><th>Puntos</th></tr>
+            </thead>
+            <tbody id="final-tabla-cuerpo"></tbody>
+            <tfoot>
+              <tr>
+                <td>Total</td>
+                <td id="final-aciertos">0</td>
+                <td id="final-errores">0</td>
+                <td id="final-sin-respuesta">0</td>
+                <td id="final-total">0</td>
+              </tr>
+            </tfoot>
+          </table>
+
+          <p class="final-reinicio">Para un nuevo participante, presioná la tecla <kbd>F5</kbd></p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+</div>
+</body>
+</html>
