@@ -83,6 +83,7 @@ const CONFIG = {
     error: $('pantalla-error'),
     inicio: $('pantalla-inicio'),
     video: $('pantalla-video'),
+    decision: $('pantalla-decision'),
     notificacion: $('pantalla-notificacion'),
     final: $('pantalla-final'),
   };
@@ -118,13 +119,18 @@ const CONFIG = {
     return '0';
   }
 
-  // La decisión se muestra en la misma pantalla del video.
   function mostrarPantalla(fase) {
     estado.fase = fase;
-    const visible = fase === 'decision' ? 'video' : fase;
     for (const [clave, elemento] of Object.entries(pantallas)) {
-      elemento.hidden = clave !== visible;
+      elemento.hidden = clave !== fase;
     }
+  }
+
+  // Pantalla completa del navegador. Solo se puede pedir tras un clic o tecla del usuario.
+  function entrarPantallaCompleta() {
+    const raiz = document.documentElement;
+    if (document.fullscreenElement || !raiz.requestFullscreen) return;
+    raiz.requestFullscreen({ navigationUI: 'hide' }).catch(() => {});
   }
 
   function casoActual() {
@@ -263,6 +269,7 @@ const CONFIG = {
     }
 
     $('login-error').hidden = true;
+    entrarPantallaCompleta();
     estado.indice = 0;
     estado.puntaje = 0;
     estado.respuestas = [];
@@ -287,10 +294,6 @@ const CONFIG = {
 
     mostrarPantalla('video');
     $('video-titulo').textContent = `Caso ${caso.numero} de ${casos.length} — ${bloque.nombre}`;
-    $('veredicto-espera').textContent =
-      `Mirá el video completo. Al terminar vas a tener ${formatearTiempo(bloque.segundosParaDecidir)} para decidir.`;
-    $('veredicto-espera').hidden = false;
-    $('veredicto-activo').hidden = true;
     $('boton-reproducir').hidden = true;
     $('video-prueba').hidden = true;
     actualizarBarraVideo(0, 0);
@@ -400,16 +403,14 @@ const CONFIG = {
 
   // ---------- Decisión ----------
 
-  // Al terminar el video queda su último cuadro y aparecen los botones debajo.
+  // Al terminar el video se pasa a la pantalla con los botones.
   function abrirDecision() {
     const caso = casoActual();
     const bloque = config.bloques[caso.bloque];
 
     mostrarPantalla('decision');
-    $('video-avance').style.width = '100%';
+    $('decision-titulo').textContent = `Caso ${caso.numero} de ${casos.length} — ${bloque.nombre}`;
 
-    $('veredicto-espera').hidden = true;
-    $('veredicto-activo').hidden = false;
     const estadoTexto = $('decision-estado');
     estadoTexto.textContent = '';
     estadoTexto.classList.remove('alerta');

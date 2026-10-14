@@ -74,34 +74,35 @@
       </div>
     </section>
 
-    <!-- Video y decisión -->
-    <section class="pantalla" id="pantalla-video" hidden>
-      <div class="caja caja-reproductor">
-        <div class="caja-titulo" id="video-titulo">Caso 1 de 18</div>
+    <!-- Video a pantalla completa -->
+    <section class="pantalla pantalla-video" id="pantalla-video" hidden>
+      <div class="reproductor-imagen">
+        <video id="video" playsinline preload="auto" disablepictureinpicture disableremoteplayback controlslist="nodownload nofullscreen noplaybackrate noremoteplayback"></video>
 
-        <div class="reproductor">
-          <div class="reproductor-imagen">
-            <video id="video" playsinline preload="auto" disablepictureinpicture disableremoteplayback controlslist="nodownload nofullscreen noplaybackrate noremoteplayback"></video>
-
-            <div class="video-prueba" id="video-prueba" hidden>
-              <p class="video-prueba-etiqueta">Video de prueba</p>
-              <p class="video-prueba-detalle" id="video-prueba-detalle"></p>
-            </div>
-
-            <button type="button" class="boton boton-azul boton-reproducir" id="boton-reproducir" hidden>&#9658; Reproducir</button>
-          </div>
-
-          <div class="reproductor-controles" aria-hidden="true">
-            <span class="reproductor-icono">&#9658;</span>
-            <span class="reproductor-pista"><span class="reproductor-avance" id="video-avance"></span></span>
-            <span class="reproductor-tiempo" id="video-tiempo">0:00 / 0:00</span>
-          </div>
+        <div class="video-prueba" id="video-prueba" hidden>
+          <p class="video-prueba-etiqueta">Video de prueba</p>
+          <p class="video-prueba-detalle" id="video-prueba-detalle"></p>
         </div>
 
-        <div class="veredicto">
-          <p class="veredicto-espera" id="veredicto-espera">Mirá el video completo. Al terminar vas a tener 1:30 para decidir.</p>
+        <button type="button" class="boton boton-azul boton-reproducir" id="boton-reproducir" hidden>&#9658; Reproducir</button>
+      </div>
 
-          <div class="veredicto-activo" id="veredicto-activo" hidden>
+      <div class="reproductor-controles" aria-hidden="true">
+        <span class="reproductor-icono">&#9658;</span>
+        <span class="reproductor-caso" id="video-titulo">Caso 1 de 18</span>
+        <span class="reproductor-pista"><span class="reproductor-avance" id="video-avance"></span></span>
+        <span class="reproductor-tiempo" id="video-tiempo">0:00 / 0:00</span>
+      </div>
+    </section>
+
+    <!-- Decisión -->
+    <section class="pantalla" id="pantalla-decision" hidden>
+      <div class="caja caja-decision">
+        <div class="caja-titulo" id="decision-titulo">Caso 1 de 18</div>
+        <div class="caja-cuerpo decision">
+          <h2 class="decision-pregunta">¿Culpable o Inocente?</h2>
+
+          <div class="veredicto-activo">
             <button type="button" class="boton boton-rojo boton-veredicto" data-eleccion="culpable">Culpable</button>
 
             <div class="reloj" id="reloj" role="timer">

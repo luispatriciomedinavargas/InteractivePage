@@ -387,20 +387,14 @@ p {
 
 /* ---------- Reproductor ---------- */
 
-.caja-reproductor {
-  display: flex;
+/* El video tapa toda la ventana, incluida la cabecera. */
+.pantalla-video {
+  position: fixed;
+  z-index: 10;
+  inset: 0;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
-}
-
-.reproductor {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  min-height: 0;
-  margin: 10px 10px 0;
-  border: 1px solid #222;
+  align-items: stretch;
+  background: #000;
 }
 
 .reproductor-imagen {
@@ -435,6 +429,12 @@ p {
 .reproductor-icono {
   color: #fff;
   font-size: 12px;
+}
+
+.reproductor-caso {
+  color: #fff;
+  font-weight: bold;
+  white-space: nowrap;
 }
 
 .reproductor-pista {
@@ -490,37 +490,36 @@ p {
   transform: translate(-50%, -50%);
 }
 
-/* ---------- Veredicto ---------- */
+/* ---------- Decisión ---------- */
 
-.veredicto {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 118px;
-  margin-top: 10px;
-  padding: 0 10px;
-  border-top: 1px solid var(--borde-claro);
+.caja-decision {
+  width: 100%;
+  max-width: 980px;
+}
+
+.decision {
+  padding: 30px 24px 40px;
   background: linear-gradient(to bottom, #f9fbfd, #e1eaf2);
 }
 
-.veredicto-espera {
-  color: var(--texto-suave);
-  font-size: 14px;
-  font-weight: bold;
+.caja .decision-pregunta {
+  margin-bottom: 34px;
+  font-size: 30px;
+  text-align: center;
 }
 
 .veredicto-activo {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 28px;
+  gap: 36px;
   width: 100%;
 }
 
 .boton-veredicto {
-  width: 250px;
-  height: 78px;
-  font-size: 26px;
+  width: 300px;
+  height: 110px;
+  font-size: 32px;
   letter-spacing: 1px;
   text-transform: uppercase;
 }
@@ -689,13 +688,10 @@ kbd {
     height: 64px;
   }
 
-  .veredicto {
-    height: 100px;
-  }
-
   .boton-veredicto {
-    height: 66px;
-    font-size: 22px;
+    width: 260px;
+    height: 88px;
+    font-size: 28px;
   }
 
   .reloj-lcd {
