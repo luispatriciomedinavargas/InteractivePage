@@ -140,27 +140,30 @@
 
     <!-- Procesando el bloque -->
     <section class="pantalla" id="pantalla-procesando" hidden>
-      <div class="caja caja-angosta">
-        <div class="caja-titulo">Procesando</div>
-        <div class="caja-cuerpo procesando" role="status">
-          <span class="procesando-icono" aria-hidden="true"></span>
-          <p class="procesando-texto">La IA está procesando el desempeño del jurado</p>
-          <span class="medidor medidor-procesando" aria-hidden="true"><span class="medidor-relleno" id="procesando-relleno"></span></span>
+      <div class="ventana-retro ventana-procesando">
+        <div class="ventana-retro-titulo">Cargando...</div>
+        <div class="ventana-retro-cuerpo">
+          <div class="panel-retro procesando" role="status">
+            <p class="procesando-texto">Aguarde un momento.<br>La IA está revisando el desempeño</p>
+            <span class="medidor medidor-procesando" aria-hidden="true"><span class="medidor-relleno" id="procesando-relleno"></span></span>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- Informe del bloque -->
     <section class="pantalla" id="pantalla-informe" hidden>
-      <div class="caja caja-angosta">
-        <div class="caja-titulo" id="informe-encabezado">Bloque 1 completado</div>
-        <div class="caja-cuerpo">
-          <h2 id="informe-titulo"></h2>
-          <ul class="informe" id="informe-lista"></ul>
-          <p class="informe-creditos">Créditos acumulados: <span id="informe-creditos">0</span></p>
-          <p class="notificacion-mensaje" id="informe-mensaje"></p>
-          <div class="centrado">
-            <button type="button" class="boton boton-azul boton-grande" id="boton-continuar">Continuar &raquo;</button>
+      <div class="ventana-retro ventana-informe">
+        <div class="ventana-retro-titulo" id="informe-encabezado">Bloque 1 completado</div>
+        <div class="ventana-retro-cuerpo">
+          <div class="panel-retro informe-panel">
+            <h2 id="informe-titulo"></h2>
+            <ul class="informe" id="informe-lista"></ul>
+            <p class="campo-retro informe-creditos">Créditos acumulados: <span id="informe-creditos">0</span></p>
+            <p class="notificacion-mensaje" id="informe-mensaje"></p>
+            <div class="centrado">
+              <button type="button" class="boton-retro" id="boton-continuar">Continuar &raquo;</button>
+            </div>
           </div>
         </div>
       </div>

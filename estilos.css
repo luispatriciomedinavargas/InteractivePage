@@ -225,11 +225,6 @@ p {
   outline-offset: 2px;
 }
 
-.boton-grande {
-  padding: 10px 34px;
-  font-size: 17px;
-}
-
 .boton-azul {
   border-color: #0b3f63;
   background: linear-gradient(to bottom, #6cc0f0 0%, #2c93d4 50%, #1778bb 51%, #2189cc 100%);
@@ -237,24 +232,6 @@ p {
 
 .boton-azul:hover {
   background: linear-gradient(to bottom, #86cdf5 0%, #3ea2e0 50%, #1e86c9 51%, #2b97da 100%);
-}
-
-.boton-rojo {
-  border-color: #7a1508;
-  background: linear-gradient(to bottom, #f58a74 0%, #db4a30 50%, #c2321b 51%, #d6462d 100%);
-}
-
-.boton-rojo:hover {
-  background: linear-gradient(to bottom, #f9a08d 0%, #e65c41 50%, #cf3f26 51%, #e2563c 100%);
-}
-
-.boton-verde {
-  border-color: #1d5c12;
-  background: linear-gradient(to bottom, #8edb78 0%, #48b234 50%, #2e9420 51%, #3fae2f 100%);
-}
-
-.boton-verde:hover {
-  background: linear-gradient(to bottom, #a2e58e 0%, #57c142 50%, #37a228 51%, #4bbb39 100%);
 }
 
 /* ---------- Ventanas estilo Windows 3.1 ---------- */
@@ -921,71 +898,75 @@ p {
   transform: translate(-50%, -50%) rotate(-12deg);
 }
 
-/* ---------- Procesando ---------- */
+/* ---------- Procesando ("Cargando...") ---------- */
+
+.ventana-procesando {
+  max-width: 640px;
+}
+
+.ventana-procesando .ventana-retro-cuerpo {
+  padding: 28px;
+}
 
 .procesando {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
-  padding: 36px 24px 40px;
+  gap: 26px;
+  padding: 34px 24px 70px;
   text-align: center;
 }
 
-.procesando-icono {
-  width: 54px;
-  height: 54px;
-  border: 6px solid #cfdfec;
-  border-top-color: var(--azul-medio);
-  border-radius: 50%;
-  animation: girar 0.9s linear infinite;
-}
-
 .procesando-texto {
-  color: var(--azul);
-  font-family: "Trebuchet MS", Arial, sans-serif;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
+  line-height: 1.35;
 }
 
-.procesando-texto::after {
-  content: "";
-  display: inline-block;
-  width: 1.2em;
-  text-align: left;
-  animation: puntos 1.2s steps(1) infinite;
-}
-
+/* Barra de progreso de Windows 3.1 */
 .medidor-procesando {
-  width: 320px;
-  height: 16px;
+  width: 75%;
+  height: 40px;
+  padding: 3px;
+  border: 2px solid #000;
+  border-radius: 0;
+  background: #8f8f8f;
+  box-shadow: inset 0 0 0 3px #fff;
 }
 
-@keyframes girar {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes puntos {
-  0% {
-    content: "";
-  }
-  25% {
-    content: ".";
-  }
-  50% {
-    content: "..";
-  }
-  75% {
-    content: "...";
-  }
+.medidor-procesando .medidor-relleno {
+  background: #00087f;
 }
 
 /* ---------- Informe del bloque ---------- */
 
+.ventana-informe {
+  display: flex;
+  flex-direction: column;
+  max-width: 900px;
+  max-height: 100%;
+}
+
+.ventana-informe .ventana-retro-cuerpo {
+  min-height: 0;
+  padding: 14px;
+  overflow: auto;
+}
+
+.informe-panel {
+  padding: 12px 20px 16px;
+  font-size: 14px;
+}
+
+.informe-panel h2 {
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #000;
+  font-size: 22px;
+}
+
 .informe {
-  margin: 0 0 16px;
+  margin: 0 0 12px;
   padding: 0;
   list-style: none;
 }
@@ -994,25 +975,19 @@ p {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 4px;
-  border-bottom: 1px dotted #c9d8e4;
+  padding: 4px 0;
+  border-bottom: 1px dotted #000;
 }
 
+/* Marco hundido */
 .informe-foto {
   flex: none;
-  width: 44px;
-  height: 44px;
-  border: 1px solid var(--borde);
+  width: 42px;
+  height: 42px;
+  border: 2px solid;
+  border-color: #7b7b7b #fff #fff #7b7b7b;
   background: #000;
   overflow: hidden;
-}
-
-.informe-texto {
-  font-style: italic;
-}
-
-.informe-texto b {
-  color: var(--azul);
 }
 
 .informe-resolucion {
@@ -1027,26 +1002,24 @@ p {
 }
 
 .informe-veredicto.correcto {
-  color: var(--verde);
+  color: #006f00;
 }
 
 .informe-veredicto.incorrecto {
-  color: var(--rojo);
+  color: #c00000;
 }
 
 .informe-creditos {
-  margin-bottom: 12px;
-  color: var(--azul);
-  font-family: "Trebuchet MS", Arial, sans-serif;
-  font-size: 22px;
+  margin: 0 0 10px;
+  padding: 6px;
+  font-size: 20px;
   font-weight: bold;
   text-align: center;
   text-transform: uppercase;
 }
 
 .notificacion-mensaje {
-  margin-bottom: 20px;
-  font-size: 14px;
+  margin-bottom: 14px;
   white-space: pre-line;
 }
 
