@@ -2,7 +2,6 @@
 
 const CONFIG = {
   "titulo": "Aplicación Interactiva",
-  "subtitulo": "¿Culpable o Inocente?",
   "acceso": {
     "usuario": "admin",
     "contrasena": "admin"
@@ -20,13 +19,17 @@ const CONFIG = {
         "titulo": "Terminaste el Bloque 1",
         "mensaje": "Completaste los primeros 6 casos.\nEn el próximo bloque vas a tener 1:00 para decidir cada caso."
       },
+      "memo": {
+        "pagina": 2,
+        "texto": "POR DISPOSICIÓN DEL GOBIERNO NACIONAL Y EN EL MARCO DEL PROGRAMA DE OPTIMIZACIÓN JUDICIAL, SE ACTUALIZARÁN LOS TIEMPOS ESTABLECIDOS PARA EL SISTEMA DE RESOLUCIÓN RÁPIDA.\nA PARTIR DE LA PRÓXIMA JORNADA, EL TIEMPO MÁXIMO DE EXPOSICIÓN PARA LOS ACUSADOS SERÁ REDUCIDO A 1 MINUTO, MIENTRAS QUE EL TIEMPO DE DELIBERACIÓN DISPONIBLE PARA JURADOS TAMBIÉN SERÁ DE 1 MINUTO POR CASO. LA MEDIDA TIENE COMO OBJETIVO AUMENTAR LA CAPACIDAD OPERATIVA DEL SISTEMA Y PERMITIR UNA RESOLUCIÓN MÁS EFICIENTE DEL VOLUMEN ACTUAL DE EXPEDIENTES."
+      },
       "videos": [
-        { "archivo": "video01.mp4", "respuestaCorrecta": "culpable" },
-        { "archivo": "video02.mp4", "respuestaCorrecta": "inocente" },
-        { "archivo": "video03.mp4", "respuestaCorrecta": "culpable" },
-        { "archivo": "video04.mp4", "respuestaCorrecta": "inocente" },
-        { "archivo": "video05.mp4", "respuestaCorrecta": "culpable" },
-        { "archivo": "video06.mp4", "respuestaCorrecta": "inocente" }
+        { "archivo": "video01.mp4", "respuestaCorrecta": "inocente", "caso": "11765/5", "imagen": "", "motivo": "Las fotos prueban que no estuvo en el lugar del hecho" },
+        { "archivo": "video02.mp4", "respuestaCorrecta": "culpable", "caso": "356765/6", "imagen": "", "motivo": "Su testimonio es contradictorio" },
+        { "archivo": "video03.mp4", "respuestaCorrecta": "inocente", "caso": "73965/4", "imagen": "", "motivo": "Las huellas de su auto están en la propiedad" },
+        { "archivo": "video04.mp4", "respuestaCorrecta": "inocente", "caso": "48213/7", "imagen": "", "motivo": "Las cámaras de seguridad lo ubican en otra ciudad" },
+        { "archivo": "video05.mp4", "respuestaCorrecta": "culpable", "caso": "90452/3", "imagen": "", "motivo": "El arma tiene sus huellas dactilares" },
+        { "archivo": "video06.mp4", "respuestaCorrecta": "inocente", "caso": "215873/2", "imagen": "", "motivo": "Tres testigos confirman su coartada" }
       ]
     },
     {
@@ -36,13 +39,17 @@ const CONFIG = {
         "titulo": "Terminaste el Bloque 2",
         "mensaje": "Completaste 12 de 18 casos.\nEn el último bloque vas a tener solo 0:30 para decidir cada caso."
       },
+      "memo": {
+        "pagina": 3,
+        "texto": "POR DISPOSICIÓN DEL GOBIERNO NACIONAL Y EN EL MARCO DEL PROGRAMA DE OPTIMIZACIÓN JUDICIAL, SE ACTUALIZARÁN LOS TIEMPOS ESTABLECIDOS PARA EL SISTEMA DE RESOLUCIÓN RÁPIDA.\nA PARTIR DE LA PRÓXIMA JORNADA, EL TIEMPO MÁXIMO DE EXPOSICIÓN PARA LOS ACUSADOS SERÁ REDUCIDO A 30 SEGUNDOS, MIENTRAS QUE EL TIEMPO DE DELIBERACIÓN DISPONIBLE PARA JURADOS TAMBIÉN SERÁ DE 30 SEGUNDOS POR CASO. LA MEDIDA TIENE COMO OBJETIVO AUMENTAR LA CAPACIDAD OPERATIVA DEL SISTEMA Y PERMITIR UNA RESOLUCIÓN MÁS EFICIENTE DEL VOLUMEN ACTUAL DE EXPEDIENTES."
+      },
       "videos": [
-        { "archivo": "video07.mp4", "respuestaCorrecta": "culpable" },
-        { "archivo": "video08.mp4", "respuestaCorrecta": "inocente" },
-        { "archivo": "video09.mp4", "respuestaCorrecta": "culpable" },
-        { "archivo": "video10.mp4", "respuestaCorrecta": "inocente" },
-        { "archivo": "video11.mp4", "respuestaCorrecta": "culpable" },
-        { "archivo": "video12.mp4", "respuestaCorrecta": "inocente" }
+        { "archivo": "video07.mp4", "respuestaCorrecta": "culpable", "caso": "61027/8", "imagen": "", "motivo": "Fue visto saliendo del lugar a la hora del hecho" },
+        { "archivo": "video08.mp4", "respuestaCorrecta": "inocente", "caso": "338104/1", "imagen": "", "motivo": "El ADN encontrado no coincide con el suyo" },
+        { "archivo": "video09.mp4", "respuestaCorrecta": "culpable", "caso": "27596/9", "imagen": "", "motivo": "Tenía en su poder los objetos robados" },
+        { "archivo": "video10.mp4", "respuestaCorrecta": "inocente", "caso": "774310/5", "imagen": "", "motivo": "Estaba internado en el hospital ese día" },
+        { "archivo": "video11.mp4", "respuestaCorrecta": "culpable", "caso": "52841/6", "imagen": "", "motivo": "Su celular lo ubica en la escena del crimen" },
+        { "archivo": "video12.mp4", "respuestaCorrecta": "inocente", "caso": "149067/3", "imagen": "", "motivo": "El verdadero responsable confesó el hecho" }
       ]
     },
     {
@@ -53,12 +60,12 @@ const CONFIG = {
         "mensaje": "Terminaste los 18 casos.\nA continuación vas a ver tu puntaje final."
       },
       "videos": [
-        { "archivo": "video13.mp4", "respuestaCorrecta": "culpable" },
-        { "archivo": "video14.mp4", "respuestaCorrecta": "inocente" },
-        { "archivo": "video15.mp4", "respuestaCorrecta": "culpable" },
-        { "archivo": "video16.mp4", "respuestaCorrecta": "inocente" },
-        { "archivo": "video17.mp4", "respuestaCorrecta": "culpable" },
-        { "archivo": "video18.mp4", "respuestaCorrecta": "inocente" }
+        { "archivo": "video13.mp4", "respuestaCorrecta": "culpable", "caso": "83725/2", "imagen": "", "motivo": "Los registros bancarios prueban el pago al cómplice" },
+        { "archivo": "video14.mp4", "respuestaCorrecta": "inocente", "caso": "406918/7", "imagen": "", "motivo": "La firma del contrato fue falsificada" },
+        { "archivo": "video15.mp4", "respuestaCorrecta": "culpable", "caso": "19354/4", "imagen": "", "motivo": "Las grabaciones muestran que mintió en su declaración" },
+        { "archivo": "video16.mp4", "respuestaCorrecta": "inocente", "caso": "665203/8", "imagen": "", "motivo": "El ticket de peaje prueba que estaba viajando" },
+        { "archivo": "video17.mp4", "respuestaCorrecta": "culpable", "caso": "37480/1", "imagen": "", "motivo": "Su auto aparece en las cámaras del lugar" },
+        { "archivo": "video18.mp4", "respuestaCorrecta": "inocente", "caso": "908156/6", "imagen": "", "motivo": "El peritaje demuestra que el incendio fue accidental" }
       ]
     }
   ]
@@ -71,7 +78,12 @@ const CONFIG = {
   const SEGUNDOS_VIDEO_PRUEBA = 5;
   // Pausa breve para que se vea la elección antes de pasar al siguiente video.
   const PAUSA_TRAS_RESPUESTA_MS = 900;
-  const PAUSA_TIEMPO_AGOTADO_MS = 1800;
+  // Cuánto queda a la vista la ventana "Penalización".
+  const PAUSA_TIEMPO_AGOTADO_MS = 3000;
+  // Cuánto dura la pantalla "La IA está procesando..." al terminar un bloque.
+  const PAUSA_PROCESANDO_MS = 4000;
+  // Segundo del video que se usa como miniatura cuando el caso no tiene imagen.
+  const SEGUNDO_MINIATURA = 1;
   // Desde cuántos segundos restantes el reloj se pone en rojo.
   const SEGUNDOS_URGENCIA = 10;
   const RESPUESTAS_VALIDAS = ['culpable', 'inocente'];
@@ -82,9 +94,12 @@ const CONFIG = {
     cargando: $('pantalla-cargando'),
     error: $('pantalla-error'),
     inicio: $('pantalla-inicio'),
+    seleccion: $('pantalla-seleccion'),
     video: $('pantalla-video'),
     decision: $('pantalla-decision'),
-    notificacion: $('pantalla-notificacion'),
+    procesando: $('pantalla-procesando'),
+    informe: $('pantalla-informe'),
+    memo: $('pantalla-memo'),
     final: $('pantalla-final'),
   };
 
@@ -97,6 +112,7 @@ const CONFIG = {
 
   const estado = {
     fase: 'cargando',
+    bloque: 0,
     indice: 0,
     puntaje: 0,
     respuestas: [],
@@ -117,6 +133,18 @@ const CONFIG = {
     if (puntos > 0) return `+${puntos}`;
     if (puntos < 0) return `−${Math.abs(puntos)}`;
     return '0';
+  }
+
+  function formatearCreditos(creditos) {
+    return creditos < 0 ? `−${Math.abs(creditos)}` : String(creditos);
+  }
+
+  const MESES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+  // "23 de Octubre de 2026"
+  function fechaDeHoy() {
+    const hoy = new Date();
+    return `${hoy.getDate()} de ${MESES[hoy.getMonth()]} de ${hoy.getFullYear()}`;
   }
 
   function mostrarPantalla(fase) {
@@ -175,6 +203,11 @@ const CONFIG = {
         if (!RESPUESTAS_VALIDAS.includes(respuesta)) {
           errores.push(`${nombre}, video ${j + 1}: "respuestaCorrecta" debe ser "culpable" o "inocente".`);
         }
+        for (const campo of ['caso', 'imagen', 'motivo']) {
+          if (v && v[campo] !== undefined && typeof v[campo] !== 'string') {
+            errores.push(`${nombre}, video ${j + 1}: "${campo}" debe ir entre comillas.`);
+          }
+        }
       });
     });
     return errores;
@@ -184,15 +217,19 @@ const CONFIG = {
     casos = [];
     config.bloques.forEach((bloque, b) => {
       bloque.nombre = bloque.nombre || `Bloque ${b + 1}`;
-      bloque.videos.forEach((v, i) => {
+      for (const v of bloque.videos) {
+        const numero = casos.length + 1;
+        const codigo = (v.caso || '').trim();
         casos.push({
-          numero: casos.length + 1,
+          numero,
           bloque: b,
-          indiceEnBloque: i,
+          nombre: `Caso ${codigo || numero}`,
           archivo: v.archivo.trim(),
+          imagen: (v.imagen || '').trim(),
+          motivo: (v.motivo || '').trim(),
           respuestaCorrecta: String(v.respuestaCorrecta).toLowerCase(),
         });
-      });
+      }
     });
   }
 
@@ -218,6 +255,10 @@ const CONFIG = {
     return `videos/${encodeURIComponent(caso.archivo)}`;
   }
 
+  function rutaImagen(caso) {
+    return `imagenes/${encodeURIComponent(caso.imagen)}`;
+  }
+
   function mostrarError(errores) {
     const lista = $('lista-errores');
     lista.replaceChildren(
@@ -233,11 +274,7 @@ const CONFIG = {
   // ---------- Inicio (login) ----------
 
   function prepararInicio() {
-    const titulo = config.titulo || 'Aplicación Interactiva';
-    const subtitulo = config.subtitulo || '¿Culpable o Inocente?';
-    document.title = titulo;
-    $('marca-titulo').textContent = titulo;
-    $('marca-subtitulo').textContent = subtitulo;
+    document.title = config.titulo || 'Aplicación Interactiva';
 
     const aviso = $('aviso-operador');
     if (videosFaltantes.size > 0) {
@@ -270,10 +307,10 @@ const CONFIG = {
 
     $('login-error').hidden = true;
     entrarPantallaCompleta();
-    estado.indice = 0;
+    estado.bloque = 0;
     estado.puntaje = 0;
     estado.respuestas = [];
-    reproducirCaso();
+    mostrarSeleccion();
   });
 
   function crearFila(valores) {
@@ -286,6 +323,106 @@ const CONFIG = {
     return fila;
   }
 
+  // ---------- Imágenes de los casos ----------
+
+  // La imagen configurada del caso o, si no tiene (o no se encuentra), un cuadro del propio video.
+  function crearImagenCaso(caso, clase) {
+    const marco = document.createElement('span');
+    marco.className = clase;
+
+    const sinImagen = () => {
+      marco.replaceChildren();
+      marco.classList.add('sin-imagen');
+    };
+
+    const cuadroDelVideo = () => {
+      if (videosFaltantes.has(caso.archivo)) {
+        sinImagen();
+        return;
+      }
+      const cuadro = document.createElement('video');
+      cuadro.muted = true;
+      cuadro.preload = 'metadata';
+      cuadro.setAttribute('playsinline', '');
+      cuadro.addEventListener('error', sinImagen, { once: true });
+      cuadro.src = `${rutaVideo(caso)}#t=${SEGUNDO_MINIATURA}`;
+      marco.replaceChildren(cuadro);
+    };
+
+    if (caso.imagen) {
+      const imagen = document.createElement('img');
+      imagen.alt = '';
+      imagen.draggable = false;
+      imagen.addEventListener('error', cuadroDelVideo, { once: true });
+      imagen.src = rutaImagen(caso);
+      marco.append(imagen);
+    } else {
+      cuadroDelVideo();
+    }
+    return marco;
+  }
+
+  // ---------- Selección de casos ----------
+
+  function casosDelBloque(indiceBloque) {
+    return casos.filter((caso) => caso.bloque === indiceBloque);
+  }
+
+  function respuestaDe(caso) {
+    return estado.respuestas.find((r) => r.numero === caso.numero);
+  }
+
+  function mostrarSeleccion() {
+    const bloque = config.bloques[estado.bloque];
+    const delBloque = casosDelBloque(estado.bloque);
+    const vistos = delBloque.filter(respuestaDe).length;
+
+    descargarVideo();
+    $('seleccion-titulo').textContent = bloque.nombre;
+    $('seleccion-avance').textContent = `Casos vistos: ${vistos} de ${delBloque.length}`;
+    $('galeria').replaceChildren(...delBloque.map(crearMiniatura));
+    mostrarPantalla('seleccion');
+  }
+
+  // Los casos ya vistos quedan bloqueados.
+  function crearMiniatura(caso) {
+    const visto = Boolean(respuestaDe(caso));
+    const boton = document.createElement('button');
+    boton.type = 'button';
+    boton.className = 'boton-retro miniatura';
+    boton.disabled = visto;
+    boton.classList.toggle('vista', visto);
+
+    const cuadro = document.createElement('span');
+    cuadro.className = 'miniatura-cuadro';
+    cuadro.append(crearImagenCaso(caso, 'miniatura-imagen'));
+    if (visto) {
+      const sello = document.createElement('span');
+      sello.className = 'miniatura-sello';
+      sello.textContent = 'Visto';
+      cuadro.append(sello);
+    }
+
+    const nombre = document.createElement('b');
+    nombre.textContent = caso.nombre;
+    const accion = document.createElement('span');
+    accion.className = 'miniatura-accion';
+    accion.textContent = visto ? 'Bloqueado' : 'Ver video ►';
+    const pie = document.createElement('span');
+    pie.className = 'miniatura-pie';
+    pie.append(nombre, accion);
+
+    boton.append(cuadro, pie);
+    boton.addEventListener('click', () => elegirCaso(caso));
+    return boton;
+  }
+
+  function elegirCaso(caso) {
+    if (estado.fase !== 'seleccion' || respuestaDe(caso)) return;
+    estado.indice = caso.numero - 1;
+    reproducirCaso();
+  }
+
   // ---------- Reproducción ----------
 
   function reproducirCaso() {
@@ -293,7 +430,7 @@ const CONFIG = {
     const bloque = config.bloques[caso.bloque];
 
     mostrarPantalla('video');
-    $('video-titulo').textContent = `Caso ${caso.numero} de ${casos.length} — ${bloque.nombre}`;
+    $('video-titulo').textContent = `${caso.nombre} — ${bloque.nombre}`;
     $('boton-reproducir').hidden = true;
     $('video-prueba').hidden = true;
     actualizarBarraVideo(0, 0);
@@ -409,7 +546,7 @@ const CONFIG = {
     const bloque = config.bloques[caso.bloque];
 
     mostrarPantalla('decision');
-    $('decision-titulo').textContent = `Caso ${caso.numero} de ${casos.length} — ${bloque.nombre}`;
+    $('penalizacion').hidden = true;
 
     const estadoTexto = $('decision-estado');
     estadoTexto.textContent = '';
@@ -505,6 +642,7 @@ const CONFIG = {
     const estadoTexto = $('decision-estado');
     estadoTexto.textContent = `¡Tiempo agotado! ${formatearPuntos(config.puntos.sinRespuesta)} puntos`;
     estadoTexto.classList.add('alerta');
+    $('penalizacion').hidden = false;
 
     registrarRespuesta(null);
     setTimeout(avanzar, PAUSA_TIEMPO_AGOTADO_MS);
@@ -514,41 +652,111 @@ const CONFIG = {
     boton.addEventListener('click', () => elegir(boton.dataset.eleccion, boton));
   }
 
+  // Vuelve a la selección hasta que se vean todos los casos del bloque.
   function avanzar() {
-    const caso = casoActual();
-    const bloque = config.bloques[caso.bloque];
-    if (caso.indiceEnBloque === bloque.videos.length - 1) {
-      mostrarNotificacion(caso.bloque);
+    const pendientes = casosDelBloque(estado.bloque).filter((caso) => !respuestaDe(caso));
+    if (pendientes.length > 0) {
+      mostrarSeleccion();
     } else {
-      estado.indice += 1;
-      reproducirCaso();
+      procesarBloque();
     }
   }
 
-  // ---------- Notificación entre bloques ----------
+  // ---------- Procesamiento e informe del bloque ----------
 
-  function mostrarNotificacion(indiceBloque) {
-    const bloque = config.bloques[indiceBloque];
+  function procesarBloque() {
+    const relleno = $('procesando-relleno');
+    descargarVideo();
+    relleno.style.transition = 'none';
+    relleno.style.width = '0';
+    mostrarPantalla('procesando');
+    void relleno.offsetWidth; // aplica el ancho inicial antes de animar
+    relleno.style.transition = `width ${PAUSA_PROCESANDO_MS}ms linear`;
+    relleno.style.width = '100%';
+    setTimeout(mostrarInforme, PAUSA_PROCESANDO_MS);
+  }
+
+  const VEREDICTOS = {
+    acierto: { clase: 'correcto', texto: 'Veredicto correcto' },
+    error: { clase: 'incorrecto', texto: 'Veredicto incorrecto' },
+    sinRespuesta: { clase: 'incorrecto', texto: 'Sin veredicto' },
+  };
+
+  function mostrarInforme() {
+    const bloque = config.bloques[estado.bloque];
     const notificacion = bloque.notificacion || {};
-    const esUltimo = indiceBloque === config.bloques.length - 1;
+    const esUltimo = estado.bloque === config.bloques.length - 1;
     const reemplazar = (texto) => String(texto || '').replaceAll('{puntaje}', formatearPuntos(estado.puntaje));
 
-    mostrarPantalla('notificacion');
-    descargarVideo();
-    $('notificacion-encabezado').textContent = `${bloque.nombre} completado`;
-    $('notificacion-titulo').textContent = reemplazar(notificacion.titulo) || `Terminaste el ${bloque.nombre}`;
-    $('notificacion-mensaje').textContent = reemplazar(notificacion.mensaje);
+    $('informe-encabezado').textContent = `${bloque.nombre} completado`;
+    $('informe-titulo').textContent = reemplazar(notificacion.titulo) || `Terminaste el ${bloque.nombre}`;
+    $('informe-lista').replaceChildren(...casosDelBloque(estado.bloque).map(crearFilaInforme));
+    $('informe-creditos').textContent = formatearCreditos(estado.puntaje);
+    $('informe-mensaje').textContent = reemplazar(notificacion.mensaje);
     $('boton-continuar').textContent = esUltimo ? 'Ver resultado »' : 'Continuar »';
+    mostrarPantalla('informe');
+  }
+
+  // "Caso 11765/5 INOCENTE (motivo) VEREDICTO CORRECTO"
+  function crearFilaInforme(caso) {
+    const veredicto = VEREDICTOS[respuestaDe(caso).resultado];
+
+    const nombre = document.createElement('b');
+    nombre.textContent = caso.nombre;
+    const resolucion = document.createElement('span');
+    resolucion.className = 'informe-resolucion';
+    resolucion.textContent = caso.respuestaCorrecta;
+    const texto = document.createElement('p');
+    texto.className = 'informe-texto';
+    texto.append(nombre, ' ', resolucion);
+
+    if (caso.motivo) {
+      const motivo = document.createElement('span');
+      motivo.className = 'informe-motivo';
+      motivo.textContent = `(${caso.motivo})`;
+      texto.append(' ', motivo);
+    }
+
+    const etiqueta = document.createElement('span');
+    etiqueta.className = `informe-veredicto ${veredicto.clase}`;
+    etiqueta.textContent = veredicto.texto;
+    texto.append(' ', etiqueta);
+
+    const fila = document.createElement('li');
+    fila.className = 'informe-fila';
+    fila.append(crearImagenCaso(caso, 'informe-foto'), texto);
+    return fila;
   }
 
   $('boton-continuar').addEventListener('click', () => {
-    if (estado.fase !== 'notificacion') return;
-    estado.indice += 1;
-    if (estado.indice >= casos.length) {
+    if (estado.fase !== 'informe') return;
+    if (estado.bloque === config.bloques.length - 1) {
       mostrarFinal();
+    } else if (config.bloques[estado.bloque].memo) {
+      mostrarMemo();
     } else {
-      reproducirCaso();
+      siguienteBloque();
     }
+  });
+
+  function siguienteBloque() {
+    estado.bloque += 1;
+    mostrarSeleccion();
+  }
+
+  // ---------- Memo entre bloques ----------
+
+  function mostrarMemo() {
+    const memo = config.bloques[estado.bloque].memo;
+    $('memo-fecha').textContent = fechaDeHoy();
+    $('memo-texto').textContent = memo.texto || '';
+    $('memo-pagina').textContent = memo.pagina || estado.bloque + 2;
+    mostrarPantalla('memo');
+  }
+
+  $('boton-memo').addEventListener('click', () => {
+    if (estado.fase !== 'memo') return;
+    siguienteBloque();
   });
 
   // ---------- Resultado final ----------

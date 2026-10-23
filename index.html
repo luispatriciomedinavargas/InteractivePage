@@ -11,21 +11,6 @@
 <body>
 <div class="pagina">
 
-  <header class="cabecera">
-    <span class="cabecera-logo" aria-hidden="true">
-      <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M24 11v29M14 40h20M10 14h28"/>
-        <circle cx="24" cy="8.5" r="2.5"/>
-        <path d="M10 14l-6 13h12zM38 14l-6 13h12z"/>
-        <path d="M4 27a6 4 0 0 0 12 0M32 27a6 4 0 0 0 12 0"/>
-      </svg>
-    </span>
-    <div>
-      <h1 class="cabecera-titulo" id="marca-titulo">Aplicación Interactiva</h1>
-      <p class="cabecera-subtitulo" id="marca-subtitulo">¿Culpable o Inocente?</p>
-    </div>
-  </header>
-
   <main class="contenido">
 
     <!-- Cargando -->
@@ -47,9 +32,10 @@
 
     <!-- Inicio de sesión -->
     <section class="pantalla" id="pantalla-inicio" hidden>
-      <div class="caja caja-login">
-        <div class="caja-titulo">Iniciar sesión</div>
-        <form class="caja-cuerpo login" id="formulario-login" autocomplete="off" novalidate>
+      <div class="ventana-retro ventana-login">
+        <div class="ventana-retro-titulo">Iniciar sesión</div>
+        <div class="ventana-retro-cuerpo">
+        <form class="panel-retro login" id="formulario-login" autocomplete="off" novalidate>
           <p class="login-indicacion">Ingrese sus datos para acceder.</p>
 
           <div class="login-error" id="login-error" role="alert" hidden>Usuario o contraseña incorrectos.</div>
@@ -57,20 +43,35 @@
           <table class="login-campos">
             <tr>
               <th><label for="login-usuario">Usuario:</label></th>
-              <td><input type="text" class="campo" id="login-usuario" name="usuario" autocomplete="off" spellcheck="false" autocapitalize="off"></td>
+              <td><input type="text" class="campo-retro login-campo" id="login-usuario" name="usuario" autocomplete="off" spellcheck="false" autocapitalize="off"></td>
             </tr>
             <tr>
               <th><label for="login-contrasena">Contraseña:</label></th>
-              <td><input type="password" class="campo" id="login-contrasena" name="contrasena" autocomplete="off"></td>
+              <td><input type="password" class="campo-retro login-campo" id="login-contrasena" name="contrasena" autocomplete="off"></td>
             </tr>
             <tr>
               <th></th>
-              <td><button type="submit" class="boton boton-azul">Ingresar &raquo;</button></td>
+              <td><button type="submit" class="boton-retro">Ingresar</button></td>
             </tr>
           </table>
 
           <div class="aviso-operador" id="aviso-operador" hidden></div>
         </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Selección de casos del bloque -->
+    <section class="pantalla" id="pantalla-seleccion" hidden>
+      <div class="ventana-retro ventana-seleccion">
+        <div class="ventana-retro-titulo" id="seleccion-titulo">Bloque 1</div>
+        <div class="ventana-retro-cuerpo">
+          <div class="panel-retro seleccion-cabecera">
+            <h2>Elegí el caso que querés ver</h2>
+            <span class="seleccion-avance" id="seleccion-avance">Casos vistos: 0 de 6</span>
+          </div>
+          <div class="galeria" id="galeria"></div>
+        </div>
       </div>
     </section>
 
@@ -97,37 +98,89 @@
 
     <!-- Decisión -->
     <section class="pantalla" id="pantalla-decision" hidden>
-      <div class="caja caja-decision">
-        <div class="caja-titulo" id="decision-titulo">Caso 1 de 18</div>
-        <div class="caja-cuerpo decision">
-          <h2 class="decision-pregunta">¿Culpable o Inocente?</h2>
+      <div class="ventana-retro ventana-veredicto">
+        <div class="ventana-retro-titulo">Veredicto</div>
+        <div class="ventana-retro-cuerpo">
+          <div class="panel-retro reloj" id="reloj" role="timer">
+            <span class="reloj-etiqueta">Tiempo restante</span>
+            <span class="campo-retro reloj-lcd" id="reloj-tiempo">1:30</span>
+            <span class="medidor medidor-reloj" aria-hidden="true"><span class="medidor-relleno" id="reloj-relleno"></span></span>
+            <span class="reloj-estado" id="decision-estado" aria-live="polite"></span>
+          </div>
 
-          <div class="veredicto-activo">
-            <button type="button" class="boton boton-rojo boton-veredicto" data-eleccion="culpable">Culpable</button>
+          <div class="veredicto-botones">
+            <button type="button" class="boton-retro boton-veredicto" data-eleccion="culpable">Culpable</button>
+            <button type="button" class="boton-retro boton-veredicto" data-eleccion="inocente">Inocente</button>
+          </div>
+        </div>
+      </div>
 
-            <div class="reloj" id="reloj" role="timer">
-              <span class="reloj-etiqueta">Tiempo restante</span>
-              <span class="reloj-lcd" id="reloj-tiempo">1:30</span>
-              <span class="medidor medidor-reloj" aria-hidden="true"><span class="medidor-relleno" id="reloj-relleno"></span></span>
-              <span class="reloj-estado" id="decision-estado" aria-live="polite"></span>
-            </div>
-
-            <button type="button" class="boton boton-verde boton-veredicto" data-eleccion="inocente">Inocente</button>
+      <!-- Aviso cuando se acaba el tiempo sin elegir -->
+      <div class="penalizacion" id="penalizacion" role="alertdialog" aria-labelledby="penalizacion-titulo" hidden>
+        <div class="ventana-penalizacion">
+          <div class="ventana-penalizacion-titulo" id="penalizacion-titulo">Penalización</div>
+          <div class="ventana-penalizacion-cuerpo">
+            <svg class="icono-alto" viewBox="0 0 64 64" shape-rendering="crispEdges" aria-hidden="true">
+              <polygon points="19,2 45,2 62,19 62,45 45,62 19,62 2,45 2,19" fill="#c4161c" stroke="#000" stroke-width="3"/>
+              <g fill="#fff" stroke="#000" stroke-width="1">
+                <rect x="20" y="17" width="6" height="20" rx="3"/>
+                <rect x="26.5" y="12" width="6" height="24" rx="3"/>
+                <rect x="33" y="13" width="6" height="23" rx="3"/>
+                <rect x="39.5" y="17" width="6" height="20" rx="3"/>
+                <rect x="43" y="29" width="6" height="15" rx="3" transform="rotate(35 46 36)"/>
+                <rect x="20" y="29" width="25.5" height="21" rx="6"/>
+              </g>
+              <path d="M30 44l7-4" stroke="#c4161c" stroke-width="1.5"/>
+            </svg>
+            <p>Se agotó el tiempo de deliberación.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Notificación entre bloques -->
-    <section class="pantalla" id="pantalla-notificacion" hidden>
+    <!-- Procesando el bloque -->
+    <section class="pantalla" id="pantalla-procesando" hidden>
       <div class="caja caja-angosta">
-        <div class="caja-titulo" id="notificacion-encabezado">Bloque 1 completado</div>
-        <div class="caja-cuerpo notificacion">
-          <span class="icono-info" aria-hidden="true">i</span>
-          <div>
-            <h2 id="notificacion-titulo"></h2>
-            <p class="notificacion-mensaje" id="notificacion-mensaje"></p>
+        <div class="caja-titulo">Procesando</div>
+        <div class="caja-cuerpo procesando" role="status">
+          <span class="procesando-icono" aria-hidden="true"></span>
+          <p class="procesando-texto">La IA está procesando el desempeño del jurado</p>
+          <span class="medidor medidor-procesando" aria-hidden="true"><span class="medidor-relleno" id="procesando-relleno"></span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Informe del bloque -->
+    <section class="pantalla" id="pantalla-informe" hidden>
+      <div class="caja caja-angosta">
+        <div class="caja-titulo" id="informe-encabezado">Bloque 1 completado</div>
+        <div class="caja-cuerpo">
+          <h2 id="informe-titulo"></h2>
+          <ul class="informe" id="informe-lista"></ul>
+          <p class="informe-creditos">Créditos acumulados: <span id="informe-creditos">0</span></p>
+          <p class="notificacion-mensaje" id="informe-mensaje"></p>
+          <div class="centrado">
             <button type="button" class="boton boton-azul boton-grande" id="boton-continuar">Continuar &raquo;</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Memo entre bloques -->
+    <section class="pantalla" id="pantalla-memo" hidden>
+      <div class="ventana-memo">
+        <div class="ventana-memo-titulo">
+          <span class="ventana-memo-menu" aria-hidden="true"></span>
+          <span class="ventana-memo-nombre">Write - MEMO_Comunicación interna</span>
+        </div>
+        <div class="memo">
+          <h2 class="memo-encabezado">Departamento de Juicios Rápidos</h2>
+          <p class="memo-subtitulo">Ajuste de desempeño<br>Fecha: <span id="memo-fecha"></span></p>
+          <p class="memo-texto" id="memo-texto"></p>
+          <p class="memo-lema">“Justicia rápida y eficiente para todos.”</p>
+          <div class="memo-pie">
+            <span class="memo-pagina">[Página <span id="memo-pagina"></span>]</span>
+            <button type="button" class="boton-retro memo-boton" id="boton-memo">Continuar</button>
           </div>
         </div>
       </div>
