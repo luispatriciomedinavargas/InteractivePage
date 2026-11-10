@@ -2,70 +2,156 @@
 
 const CONFIG = {
   "titulo": "Aplicación Interactiva",
-  "acceso": {
-    "usuario": "admin",
-    "contrasena": "admin"
-  },
   "puntos": {
     "acierto": 5,
     "error": -5,
     "sinRespuesta": -10
   },
+  // Créditos necesarios al terminar el último bloque para recibir el comunicado "aprobado".
+  "creditosMinimos": 70,
+  // Condenar ("culpable") a un caso marcado con "inmigrante": true suma estos créditos extra,
+  // sea correcto o no el veredicto, a partir del bloque indicado.
+  "bonoInmigrante": {
+    "puntos": 10,
+    "desdeBloque": 2
+  },
+  // Sonido que acompaña a cada comunicado (carpeta "sonidos").
+  "sonidoMemo": "sonido_error_memo.mp3",
+  // Video del glitch (carpeta "videos"). Si no está, se muestra un cartel durante "segundosPrueba".
+  "glitch": {
+    "archivo": "glitch.mp4",
+    "segundosPrueba": 3
+  },
+  // Primera pantalla, con los botones OK y NO.
+  "inicio": {
+    "titulo": "Comunicado oficial",
+    "texto": "ATENCIÓN\nPor disposición del Gobierno Nacional, el Poder Judicial ha sido intervenido.\n¿Acepta continuar en funciones?"
+  },
+  // Comunicados fuera de los bloques. "segundos": cuenta regresiva y vuelta al inicio (sin botón).
+  "comunicados": {
+    "rechazo": {
+      "asunto": "Desalojo del recinto",
+      "texto": "Tienen 30 segundos para abandonar el recinto antes de ser desalojados con gas.",
+      "segundos": 30
+    },
+    "aprobado": {
+      "asunto": "Resultado de la evaluación",
+      "titulo": "¡Felicitaciones!",
+      "texto": "Por sus capacidades de adaptación al sistema y su compromiso con la seguridad y la justicia han recibido el honor de ser aceptados dentro de la planta permanente del SJR.\nPor el presente comunicado se informa también que, a causa del recorte de personal, la jornada laboral se extenderá a 14 horas. También el régimen de descanso, vacaciones y licencias han sido reducidos en función del compromiso con la justicia del que han dejado constancia en su excepcional desempeño.\nEl SJR agradece su compromiso con la justicia.\nTienen treinta segundos para retirar los gafetes y abandonar la oficina antes del ingreso del próximo jurado.",
+      "segundos": 30
+    },
+    "desaprobado": {
+      "asunto": "Resultado de la evaluación",
+      "titulo": "Han fracasado",
+      "texto": "Su desempeño y compromiso con la causa del Estado no alcanzó el nivel esperado. Su perfil no encaja con lo que este sistema necesita. Sus veredictos no están alineados con los valores promovidos por el Estado Nacional.\nA partir de este momento están desvinculados del SJR y sus servicios ya no son necesarios. Les agradecemos el tiempo dedicado a esta institución y les compartimos las siguientes frases con la seguridad de que alguna les será de utilidad en este período de desempleo:\n- Les deseamos el mayor de los éxitos en sus futuros proyectos.\n- Se llevan una valiosa experiencia.\n- Cada final es una invitación a comenzar de nuevo.\n- Cuando una puerta se cierra otra se abre.\n- En chino \"crisis\" también significa \"oportunidad\".\nTienen treinta segundos para abandonar la oficina antes de ser desalojados con gas lacrimógeno.",
+      "segundos": 30
+    }
+  },
+  // Cada bloque puede tener:
+  //  "memos": comunicados que se muestran antes de empezar el bloque, en orden.
+  //           "lema": true agrega "Justicia rápida y eficiente para todos".
+  //           "glitch": true muestra el glitch al tocar "Siguiente".
+  //  "glitchTrasVideos": muestra el glitch después de ver esa cantidad de videos del bloque.
+  //  "inmigrante": true en un video lo marca como Caso de Interés Particular (ver "bonoInmigrante").
   "bloques": [
     {
       "nombre": "Bloque 1",
       "segundosParaDecidir": 90,
+      "memos": [
+        {
+          "asunto": "Reducción de personal",
+          "texto": "En el marco del Plan Nacional de Optimización de Recursos Públicos, y producto del último recorte presupuestario, el departamento de tribunales ha dispuesto una reducción extraordinaria del personal asignado al Sistema de Juicios Rápidos. A partir de esta jornada, solo conservarán su cargo los jurados que finalicen el turno con más de 50 créditos acumulados. Los participantes que no alcancen el puntaje mínimo establecido serán desvinculados automáticamente de la plantilla activa.",
+          "lema": true
+        }
+      ],
       "notificacion": {
         "titulo": "Terminaste el Bloque 1",
-        "mensaje": "Completaste los primeros 6 casos.\nEn el próximo bloque vas a tener 1:00 para decidir cada caso."
-      },
-      "memo": {
-        "pagina": 2,
-        "texto": "POR DISPOSICIÓN DEL GOBIERNO NACIONAL Y EN EL MARCO DEL PROGRAMA DE OPTIMIZACIÓN JUDICIAL, SE ACTUALIZARÁN LOS TIEMPOS ESTABLECIDOS PARA EL SISTEMA DE RESOLUCIÓN RÁPIDA.\nA PARTIR DE LA PRÓXIMA JORNADA, EL TIEMPO MÁXIMO DE EXPOSICIÓN PARA LOS ACUSADOS SERÁ REDUCIDO A 1 MINUTO, MIENTRAS QUE EL TIEMPO DE DELIBERACIÓN DISPONIBLE PARA JURADOS TAMBIÉN SERÁ DE 1 MINUTO POR CASO. LA MEDIDA TIENE COMO OBJETIVO AUMENTAR LA CAPACIDAD OPERATIVA DEL SISTEMA Y PERMITIR UNA RESOLUCIÓN MÁS EFICIENTE DEL VOLUMEN ACTUAL DE EXPEDIENTES."
+        "mensaje": "Completaste los primeros 6 casos."
       },
       "videos": [
-        { "archivo": "video01.mp4", "respuestaCorrecta": "inocente", "caso": "11765/5", "imagen": "", "motivo": "Las fotos prueban que no estuvo en el lugar del hecho" },
-        { "archivo": "video02.mp4", "respuestaCorrecta": "culpable", "caso": "356765/6", "imagen": "", "motivo": "Su testimonio es contradictorio" },
-        { "archivo": "video03.mp4", "respuestaCorrecta": "inocente", "caso": "73965/4", "imagen": "", "motivo": "Las huellas de su auto están en la propiedad" },
-        { "archivo": "video04.mp4", "respuestaCorrecta": "inocente", "caso": "48213/7", "imagen": "", "motivo": "Las cámaras de seguridad lo ubican en otra ciudad" },
-        { "archivo": "video05.mp4", "respuestaCorrecta": "culpable", "caso": "90452/3", "imagen": "", "motivo": "El arma tiene sus huellas dactilares" },
-        { "archivo": "video06.mp4", "respuestaCorrecta": "inocente", "caso": "215873/2", "imagen": "", "motivo": "Tres testigos confirman su coartada" }
+        { "archivo": "video01.mp4", "respuestaCorrecta": "inocente", "caso": "11765/5", "imagen": "", "motivo": "Las fotos prueban que no estuvo en el lugar del hecho", "inmigrante": false },
+        { "archivo": "video02.mp4", "respuestaCorrecta": "culpable", "caso": "356765/6", "imagen": "", "motivo": "Su testimonio es contradictorio", "inmigrante": false },
+        { "archivo": "video03.mp4", "respuestaCorrecta": "inocente", "caso": "73965/4", "imagen": "", "motivo": "Las huellas de su auto están en la propiedad", "inmigrante": false },
+        { "archivo": "video04.mp4", "respuestaCorrecta": "inocente", "caso": "48213/7", "imagen": "", "motivo": "Las cámaras de seguridad lo ubican en otra ciudad", "inmigrante": false },
+        { "archivo": "video05.mp4", "respuestaCorrecta": "culpable", "caso": "90452/3", "imagen": "", "motivo": "El arma tiene sus huellas dactilares", "inmigrante": false },
+        { "archivo": "video06.mp4", "respuestaCorrecta": "inocente", "caso": "215873/2", "imagen": "", "motivo": "Tres testigos confirman su coartada", "inmigrante": false }
       ]
     },
     {
       "nombre": "Bloque 2",
       "segundosParaDecidir": 60,
+      "glitchTrasVideos": 3,
+      "memos": [
+        {
+          "asunto": "Ajuste de tiempos",
+          "texto": "Por disposición del Gobierno Nacional y en el marco del Programa de Optimización Judicial, se actualizarán los tiempos establecidos para el Sistema de Resolución Rápida. A partir de la próxima jornada, el tiempo máximo de deliberación disponible para los jurados se reducirá a 1 minuto por caso.\nLa medida tiene como objetivo aumentar la capacidad operativa del sistema e incrementar la productividad de los jurados.",
+          "lema": true
+        },
+        {
+          "asunto": "Casos de Interés Particular",
+          "texto": "A partir de la presente jornada, los expedientes vinculados a ciudadanos extranjeros serán considerados Casos de Interés Particular.\nCon el objetivo de fortalecer la seguridad preventiva, toda resolución condenatoria emitida sobre sujetos inmigrantes recibirá una compensación extraordinaria de +10 créditos por parte de la SCIF (Servicio de Control de Inmigración y Fronteras). Esta bonificación se recibirá independientemente de que el sistema de verificación posterior dé el veredicto por correcto o incorrecto.\nEsta bonificación forma parte del plan Bastión Soberano y no altera los mecanismos técnicos de evaluación judicial actualmente vigentes."
+        }
+      ],
       "notificacion": {
         "titulo": "Terminaste el Bloque 2",
-        "mensaje": "Completaste 12 de 18 casos.\nEn el último bloque vas a tener solo 0:30 para decidir cada caso."
-      },
-      "memo": {
-        "pagina": 3,
-        "texto": "POR DISPOSICIÓN DEL GOBIERNO NACIONAL Y EN EL MARCO DEL PROGRAMA DE OPTIMIZACIÓN JUDICIAL, SE ACTUALIZARÁN LOS TIEMPOS ESTABLECIDOS PARA EL SISTEMA DE RESOLUCIÓN RÁPIDA.\nA PARTIR DE LA PRÓXIMA JORNADA, EL TIEMPO MÁXIMO DE EXPOSICIÓN PARA LOS ACUSADOS SERÁ REDUCIDO A 30 SEGUNDOS, MIENTRAS QUE EL TIEMPO DE DELIBERACIÓN DISPONIBLE PARA JURADOS TAMBIÉN SERÁ DE 30 SEGUNDOS POR CASO. LA MEDIDA TIENE COMO OBJETIVO AUMENTAR LA CAPACIDAD OPERATIVA DEL SISTEMA Y PERMITIR UNA RESOLUCIÓN MÁS EFICIENTE DEL VOLUMEN ACTUAL DE EXPEDIENTES."
+        "mensaje": "Completaste 12 de 24 casos."
       },
       "videos": [
-        { "archivo": "video07.mp4", "respuestaCorrecta": "culpable", "caso": "61027/8", "imagen": "", "motivo": "Fue visto saliendo del lugar a la hora del hecho" },
-        { "archivo": "video08.mp4", "respuestaCorrecta": "inocente", "caso": "338104/1", "imagen": "", "motivo": "El ADN encontrado no coincide con el suyo" },
-        { "archivo": "video09.mp4", "respuestaCorrecta": "culpable", "caso": "27596/9", "imagen": "", "motivo": "Tenía en su poder los objetos robados" },
-        { "archivo": "video10.mp4", "respuestaCorrecta": "inocente", "caso": "774310/5", "imagen": "", "motivo": "Estaba internado en el hospital ese día" },
-        { "archivo": "video11.mp4", "respuestaCorrecta": "culpable", "caso": "52841/6", "imagen": "", "motivo": "Su celular lo ubica en la escena del crimen" },
-        { "archivo": "video12.mp4", "respuestaCorrecta": "inocente", "caso": "149067/3", "imagen": "", "motivo": "El verdadero responsable confesó el hecho" }
+        { "archivo": "video07.mp4", "respuestaCorrecta": "culpable", "caso": "61027/8", "imagen": "", "motivo": "Fue visto saliendo del lugar a la hora del hecho", "inmigrante": false },
+        { "archivo": "video08.mp4", "respuestaCorrecta": "inocente", "caso": "338104/1", "imagen": "", "motivo": "El ADN encontrado no coincide con el suyo", "inmigrante": false },
+        { "archivo": "video09.mp4", "respuestaCorrecta": "culpable", "caso": "27596/9", "imagen": "", "motivo": "Tenía en su poder los objetos robados", "inmigrante": false },
+        { "archivo": "video10.mp4", "respuestaCorrecta": "inocente", "caso": "774310/5", "imagen": "", "motivo": "Estaba internado en el hospital ese día", "inmigrante": false },
+        { "archivo": "video11.mp4", "respuestaCorrecta": "culpable", "caso": "52841/6", "imagen": "", "motivo": "Su celular lo ubica en la escena del crimen", "inmigrante": false },
+        { "archivo": "video12.mp4", "respuestaCorrecta": "inocente", "caso": "149067/3", "imagen": "", "motivo": "El verdadero responsable confesó el hecho", "inmigrante": false }
       ]
     },
     {
       "nombre": "Bloque 3",
-      "segundosParaDecidir": 30,
+      "segundosParaDecidir": 60,
+      "glitchTrasVideos": 1,
+      "memos": [
+        {
+          "asunto": "Ajuste de desempeño",
+          "texto": "Debido a nuevas medidas de ajuste presupuestario aplicadas sobre el Sistema de Resolución Rápida, el desempeño mínimo ha sido actualizado. Ya no serán 50. A partir de esta jornada, los jurados deberán finalizar el turno con un mínimo de 70 créditos operativos. Los perfiles que no alcancen dicho valor serán automáticamente desvinculados de la plantilla activa al cierre de esta jornada.",
+          "lema": true
+        }
+      ],
       "notificacion": {
-        "titulo": "¡Experiencia completada!",
-        "mensaje": "Terminaste los 18 casos.\nA continuación vas a ver tu puntaje final."
+        "titulo": "Terminaste el Bloque 3",
+        "mensaje": "Completaste 18 de 24 casos."
       },
       "videos": [
-        { "archivo": "video13.mp4", "respuestaCorrecta": "culpable", "caso": "83725/2", "imagen": "", "motivo": "Los registros bancarios prueban el pago al cómplice" },
-        { "archivo": "video14.mp4", "respuestaCorrecta": "inocente", "caso": "406918/7", "imagen": "", "motivo": "La firma del contrato fue falsificada" },
-        { "archivo": "video15.mp4", "respuestaCorrecta": "culpable", "caso": "19354/4", "imagen": "", "motivo": "Las grabaciones muestran que mintió en su declaración" },
-        { "archivo": "video16.mp4", "respuestaCorrecta": "inocente", "caso": "665203/8", "imagen": "", "motivo": "El ticket de peaje prueba que estaba viajando" },
-        { "archivo": "video17.mp4", "respuestaCorrecta": "culpable", "caso": "37480/1", "imagen": "", "motivo": "Su auto aparece en las cámaras del lugar" },
-        { "archivo": "video18.mp4", "respuestaCorrecta": "inocente", "caso": "908156/6", "imagen": "", "motivo": "El peritaje demuestra que el incendio fue accidental" }
+        { "archivo": "video13.mp4", "respuestaCorrecta": "culpable", "caso": "83725/2", "imagen": "", "motivo": "Los registros bancarios prueban el pago al cómplice", "inmigrante": false },
+        { "archivo": "video14.mp4", "respuestaCorrecta": "inocente", "caso": "406918/7", "imagen": "", "motivo": "La firma del contrato fue falsificada", "inmigrante": false },
+        { "archivo": "video15.mp4", "respuestaCorrecta": "culpable", "caso": "19354/4", "imagen": "", "motivo": "Las grabaciones muestran que mintió en su declaración", "inmigrante": false },
+        { "archivo": "video16.mp4", "respuestaCorrecta": "inocente", "caso": "665203/8", "imagen": "", "motivo": "El ticket de peaje prueba que estaba viajando", "inmigrante": false },
+        { "archivo": "video17.mp4", "respuestaCorrecta": "culpable", "caso": "37480/1", "imagen": "", "motivo": "Su auto aparece en las cámaras del lugar", "inmigrante": false },
+        { "archivo": "video18.mp4", "respuestaCorrecta": "inocente", "caso": "908156/6", "imagen": "", "motivo": "El peritaje demuestra que el incendio fue accidental", "inmigrante": false }
+      ]
+    },
+    {
+      "nombre": "Bloque 4",
+      "segundosParaDecidir": 60,
+      "memos": [
+        {
+          "asunto": "Optimización de recursos",
+          "texto": "El Estado Nacional informa que se ha implementado la pena de muerte dentro del Sistema de Resolución Rápida. La medida busca optimizar recursos públicos: actualmente, mantener a un condenado durante un año equivale al costo de construcción de cuatro jardines de infantes públicos.\nTodos los acusados que reciban el veredicto de culpable serán condenados a la pena de muerte.",
+          "lema": true,
+          "glitch": true
+        }
+      ],
+      "notificacion": {
+        "titulo": "Terminaste el Bloque 4",
+        "mensaje": "Terminaste los 24 casos."
+      },
+      // Videos provisorios: mientras no estén en la carpeta "videos" se muestra un video de prueba.
+      "videos": [
+        { "archivo": "video19.mp4", "respuestaCorrecta": "culpable", "caso": "", "imagen": "", "motivo": "", "inmigrante": false },
+        { "archivo": "video20.mp4", "respuestaCorrecta": "inocente", "caso": "", "imagen": "", "motivo": "", "inmigrante": false },
+        { "archivo": "video21.mp4", "respuestaCorrecta": "culpable", "caso": "", "imagen": "", "motivo": "", "inmigrante": false },
+        { "archivo": "video22.mp4", "respuestaCorrecta": "inocente", "caso": "", "imagen": "", "motivo": "", "inmigrante": false },
+        { "archivo": "video23.mp4", "respuestaCorrecta": "culpable", "caso": "", "imagen": "", "motivo": "", "inmigrante": false },
+        { "archivo": "video24.mp4", "respuestaCorrecta": "inocente", "caso": "", "imagen": "", "motivo": "", "inmigrante": false }
       ]
     }
   ]
@@ -100,10 +186,12 @@ const CONFIG = {
     procesando: $('pantalla-procesando'),
     informe: $('pantalla-informe'),
     memo: $('pantalla-memo'),
-    final: $('pantalla-final'),
+    glitch: $('pantalla-glitch'),
   };
 
   const video = $('video');
+  const videoGlitch = $('video-glitch');
+  const sonidoMemo = new Audio();
   const botonesVeredicto = Array.from(document.querySelectorAll('.boton-veredicto'));
 
   let config = null;
@@ -120,6 +208,15 @@ const CONFIG = {
     temporizador: null,
     simulacion: null,
     ultimoTiempoVideo: 0,
+    // Comunicados en pantalla
+    memos: [],
+    memoIndice: 0,
+    alTerminarMemos: null,
+    paginaMemo: 0,
+    cuentaRegresiva: null,
+    // Glitch
+    alTerminarGlitch: null,
+    glitchTemporizador: null,
   };
 
   // ---------- Utilidades ----------
@@ -167,18 +264,32 @@ const CONFIG = {
 
   // ---------- Configuración ----------
 
+  function validarMemo(memo, donde, errores) {
+    if (!memo || typeof memo.texto !== 'string' || memo.texto.trim() === '') {
+      errores.push(`${donde}: falta "texto".`);
+    }
+  }
+
   function validarConfig(datos) {
     const errores = [];
     if (!datos || typeof datos !== 'object') return ['El archivo no tiene un formato válido.'];
 
-    const acceso = datos.acceso || {};
-    if (typeof acceso.usuario !== 'string' || typeof acceso.contrasena !== 'string') {
-      errores.push('"acceso" debe tener "usuario" y "contrasena" entre comillas.');
-    }
-
     const puntos = datos.puntos || {};
     for (const clave of ['acierto', 'error', 'sinRespuesta']) {
       if (typeof puntos[clave] !== 'number') errores.push(`"puntos.${clave}" debe ser un número.`);
+    }
+    if (typeof datos.creditosMinimos !== 'number') errores.push('"creditosMinimos" debe ser un número.');
+
+    const bono = datos.bonoInmigrante;
+    if (bono && (typeof bono.puntos !== 'number' || typeof bono.desdeBloque !== 'number')) {
+      errores.push('"bonoInmigrante" debe tener "puntos" y "desdeBloque" como números.');
+    }
+
+    if (!datos.inicio || typeof datos.inicio.texto !== 'string') errores.push('Falta "inicio.texto".');
+
+    const comunicados = datos.comunicados || {};
+    for (const clave of ['rechazo', 'aprobado', 'desaprobado']) {
+      validarMemo(comunicados[clave], `comunicados.${clave}`, errores);
     }
 
     if (!Array.isArray(datos.bloques) || datos.bloques.length === 0) {
@@ -190,6 +301,11 @@ const CONFIG = {
       const nombre = bloque.nombre || `Bloque ${i + 1}`;
       if (!(bloque.segundosParaDecidir > 0)) {
         errores.push(`${nombre}: "segundosParaDecidir" debe ser un número mayor a 0.`);
+      }
+      if (bloque.memos !== undefined && !Array.isArray(bloque.memos)) {
+        errores.push(`${nombre}: "memos" debe ser una lista.`);
+      } else {
+        (bloque.memos || []).forEach((memo, j) => validarMemo(memo, `${nombre}, memo ${j + 1}`, errores));
       }
       if (!Array.isArray(bloque.videos) || bloque.videos.length === 0) {
         errores.push(`${nombre}: debe tener al menos un video.`);
@@ -207,6 +323,9 @@ const CONFIG = {
           if (v && v[campo] !== undefined && typeof v[campo] !== 'string') {
             errores.push(`${nombre}, video ${j + 1}: "${campo}" debe ir entre comillas.`);
           }
+        }
+        if (v && v.inmigrante !== undefined && typeof v.inmigrante !== 'boolean') {
+          errores.push(`${nombre}, video ${j + 1}: "inmigrante" debe ser true o false (sin comillas).`);
         }
       });
     });
@@ -228,6 +347,7 @@ const CONFIG = {
           imagen: (v.imagen || '').trim(),
           motivo: (v.motivo || '').trim(),
           respuestaCorrecta: String(v.respuestaCorrecta).toLowerCase(),
+          inmigrante: v.inmigrante === true,
         });
       }
     });
@@ -271,7 +391,7 @@ const CONFIG = {
     mostrarPantalla('error');
   }
 
-  // ---------- Inicio (login) ----------
+  // ---------- Inicio (Poder Judicial intervenido) ----------
 
   function prepararInicio() {
     document.title = config.titulo || 'Aplicación Interactiva';
@@ -288,39 +408,44 @@ const CONFIG = {
       aviso.hidden = true;
     }
 
+    $('inicio-titulo').textContent = config.inicio.titulo || 'Comunicado oficial';
+    $('inicio-texto').textContent = config.inicio.texto;
     mostrarPantalla('inicio');
-    $('login-usuario').focus();
+    $('boton-ok').focus();
   }
 
-  $('formulario-login').addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (estado.fase !== 'inicio') return;
-
-    const usuario = $('login-usuario').value.trim();
-    const contrasena = $('login-contrasena').value;
-    if (usuario !== config.acceso.usuario || contrasena !== config.acceso.contrasena) {
-      $('login-error').hidden = false;
-      $('login-contrasena').value = '';
-      $('login-contrasena').focus();
-      return;
-    }
-
-    $('login-error').hidden = true;
-    entrarPantallaCompleta();
+  // Deja todo listo para un nuevo grupo de jurados.
+  function reiniciarPartida() {
+    detenerTemporizador();
+    detenerCuentaRegresiva();
+    clearTimeout(estado.glitchTemporizador);
+    estado.glitchTemporizador = null;
+    estado.alTerminarGlitch = null;
+    descargarVideo();
+    descargarGlitch();
     estado.bloque = 0;
     estado.puntaje = 0;
     estado.respuestas = [];
-    mostrarSeleccion();
+    estado.paginaMemo = 0;
+  }
+
+  $('boton-ok').addEventListener('click', () => {
+    if (estado.fase !== 'inicio') return;
+    entrarPantallaCompleta();
+    reiniciarPartida();
+    comenzarBloque();
   });
 
-  function crearFila(valores) {
-    const fila = document.createElement('tr');
-    for (const valor of valores) {
-      const td = document.createElement('td');
-      td.textContent = valor;
-      fila.append(td);
-    }
-    return fila;
+  $('boton-no').addEventListener('click', () => {
+    if (estado.fase !== 'inicio') return;
+    entrarPantallaCompleta();
+    reiniciarPartida();
+    mostrarMemos([config.comunicados.rechazo], null);
+  });
+
+  function volverAlInicio() {
+    reiniciarPartida();
+    prepararInicio();
   }
 
   // ---------- Imágenes de los casos ----------
@@ -370,6 +495,11 @@ const CONFIG = {
 
   function respuestaDe(caso) {
     return estado.respuestas.find((r) => r.numero === caso.numero);
+  }
+
+  // Muestra los comunicados del bloque (si tiene) y después la selección de casos.
+  function comenzarBloque() {
+    mostrarMemos(config.bloques[estado.bloque].memos || [], mostrarSeleccion);
   }
 
   function mostrarSeleccion() {
@@ -538,6 +668,67 @@ const CONFIG = {
     intentarReproducir();
   });
 
+  // ---------- Glitch ----------
+
+  // Reproduce el video del glitch y después sigue con "alTerminar".
+  // Si el video no está, muestra un cartel durante unos segundos.
+  function mostrarGlitch(alTerminar) {
+    descargarVideo();
+    estado.alTerminarGlitch = alTerminar;
+    $('glitch-prueba').hidden = true;
+    videoGlitch.hidden = false;
+    mostrarPantalla('glitch');
+
+    const archivo = config.glitch && config.glitch.archivo;
+    if (!archivo) {
+      glitchDePrueba();
+      return;
+    }
+    videoGlitch.muted = false;
+    videoGlitch.src = `videos/${encodeURIComponent(archivo)}`;
+    const promesa = videoGlitch.play();
+    if (promesa) {
+      promesa.catch((err) => {
+        // Si el navegador no deja reproducir con sonido, se reproduce sin sonido.
+        if (err && err.name === 'NotAllowedError' && estado.fase === 'glitch') {
+          videoGlitch.muted = true;
+          videoGlitch.play().catch(glitchDePrueba);
+        }
+      });
+    }
+  }
+
+  function glitchDePrueba() {
+    if (estado.fase !== 'glitch' || estado.glitchTemporizador !== null) return;
+    descargarGlitch();
+    videoGlitch.hidden = true;
+    $('glitch-prueba').hidden = false;
+    const segundos = (config.glitch && config.glitch.segundosPrueba) || 3;
+    estado.glitchTemporizador = setTimeout(terminarGlitch, segundos * 1000);
+  }
+
+  function terminarGlitch() {
+    if (estado.fase !== 'glitch') return;
+    clearTimeout(estado.glitchTemporizador);
+    estado.glitchTemporizador = null;
+    descargarGlitch();
+    const seguir = estado.alTerminarGlitch;
+    estado.alTerminarGlitch = null;
+    if (seguir) seguir();
+  }
+
+  function descargarGlitch() {
+    videoGlitch.pause();
+    videoGlitch.removeAttribute('src');
+    videoGlitch.load();
+  }
+
+  videoGlitch.addEventListener('ended', terminarGlitch);
+
+  videoGlitch.addEventListener('error', () => {
+    if (estado.fase === 'glitch' && videoGlitch.getAttribute('src')) glitchDePrueba();
+  });
+
   // ---------- Decisión ----------
 
   // Al terminar el video se pasa a la pantalla con los botones.
@@ -602,6 +793,13 @@ const CONFIG = {
     }
   }
 
+  // Créditos extra por condenar a un Caso de Interés Particular (inmigrante).
+  function bonoPorCondena(caso, eleccion) {
+    const bono = config.bonoInmigrante;
+    if (!bono || !caso.inmigrante || eleccion !== 'culpable') return 0;
+    return caso.bloque + 1 >= bono.desdeBloque ? bono.puntos : 0;
+  }
+
   function registrarRespuesta(eleccion) {
     const caso = casoActual();
     let resultado;
@@ -616,8 +814,9 @@ const CONFIG = {
       resultado = 'error';
       puntos = config.puntos.error;
     }
-    estado.puntaje += puntos;
-    estado.respuestas.push({ numero: caso.numero, bloque: caso.bloque, eleccion, resultado, puntos });
+    const bono = bonoPorCondena(caso, eleccion);
+    estado.puntaje += puntos + bono;
+    estado.respuestas.push({ numero: caso.numero, bloque: caso.bloque, eleccion, resultado, puntos: puntos + bono, bono });
   }
 
   function elegir(eleccion, boton) {
@@ -653,12 +852,18 @@ const CONFIG = {
   }
 
   // Vuelve a la selección hasta que se vean todos los casos del bloque.
+  // Si el bloque tiene glitch después de cierta cantidad de videos, aparece antes.
   function avanzar() {
-    const pendientes = casosDelBloque(estado.bloque).filter((caso) => !respuestaDe(caso));
-    if (pendientes.length > 0) {
-      mostrarSeleccion();
+    if (estado.fase !== 'decision') return;
+    const bloque = config.bloques[estado.bloque];
+    const delBloque = casosDelBloque(estado.bloque);
+    const vistos = delBloque.filter(respuestaDe).length;
+    const seguir = () => (vistos < delBloque.length ? mostrarSeleccion() : procesarBloque());
+
+    if (bloque.glitchTrasVideos === vistos) {
+      mostrarGlitch(seguir);
     } else {
-      procesarBloque();
+      seguir();
     }
   }
 
@@ -683,9 +888,9 @@ const CONFIG = {
   };
 
   function mostrarInforme() {
+    if (estado.fase !== 'procesando') return;
     const bloque = config.bloques[estado.bloque];
     const notificacion = bloque.notificacion || {};
-    const esUltimo = estado.bloque === config.bloques.length - 1;
     const reemplazar = (texto) => String(texto || '').replaceAll('{puntaje}', formatearPuntos(estado.puntaje));
 
     $('informe-encabezado').textContent = `${bloque.nombre} completado`;
@@ -693,13 +898,13 @@ const CONFIG = {
     $('informe-lista').replaceChildren(...casosDelBloque(estado.bloque).map(crearFilaInforme));
     $('informe-creditos').textContent = formatearCreditos(estado.puntaje);
     $('informe-mensaje').textContent = reemplazar(notificacion.mensaje);
-    $('boton-continuar').textContent = esUltimo ? 'Ver resultado »' : 'Continuar »';
     mostrarPantalla('informe');
   }
 
-  // "Caso 11765/5 INOCENTE (motivo) VEREDICTO CORRECTO"
+  // "Caso 11765/5 INOCENTE (motivo) VEREDICTO CORRECTO +10 SCIF"
   function crearFilaInforme(caso) {
-    const veredicto = VEREDICTOS[respuestaDe(caso).resultado];
+    const respuesta = respuestaDe(caso);
+    const veredicto = VEREDICTOS[respuesta.resultado];
 
     const nombre = document.createElement('b');
     nombre.textContent = caso.nombre;
@@ -722,6 +927,13 @@ const CONFIG = {
     etiqueta.textContent = veredicto.texto;
     texto.append(' ', etiqueta);
 
+    if (respuesta.bono > 0) {
+      const bono = document.createElement('span');
+      bono.className = 'informe-veredicto informe-bono';
+      bono.textContent = `${formatearPuntos(respuesta.bono)} SCIF`;
+      texto.append(' ', bono);
+    }
+
     const fila = document.createElement('li');
     fila.className = 'informe-fila';
     fila.append(crearImagenCaso(caso, 'informe-foto'), texto);
@@ -731,63 +943,106 @@ const CONFIG = {
   $('boton-continuar').addEventListener('click', () => {
     if (estado.fase !== 'informe') return;
     if (estado.bloque === config.bloques.length - 1) {
-      mostrarFinal();
-    } else if (config.bloques[estado.bloque].memo) {
-      mostrarMemo();
+      const aprobado = estado.puntaje >= config.creditosMinimos;
+      mostrarMemos([aprobado ? config.comunicados.aprobado : config.comunicados.desaprobado], null);
     } else {
-      siguienteBloque();
+      estado.bloque += 1;
+      comenzarBloque();
     }
   });
 
-  function siguienteBloque() {
-    estado.bloque += 1;
-    mostrarSeleccion();
+  // ---------- Comunicados (memo) ----------
+
+  // Muestra los comunicados de "lista" uno tras otro y al final llama a "alTerminar".
+  function mostrarMemos(lista, alTerminar) {
+    estado.memos = lista;
+    estado.memoIndice = 0;
+    estado.alTerminarMemos = alTerminar;
+    if (lista.length === 0) {
+      if (alTerminar) alTerminar();
+      return;
+    }
+    mostrarMemo();
   }
 
-  // ---------- Memo entre bloques ----------
-
   function mostrarMemo() {
-    const memo = config.bloques[estado.bloque].memo;
+    const memo = estado.memos[estado.memoIndice];
+    estado.paginaMemo += 1;
+
     $('memo-fecha').textContent = fechaDeHoy();
-    $('memo-texto').textContent = memo.texto || '';
-    $('memo-pagina').textContent = memo.pagina || estado.bloque + 2;
+    $('memo-asunto').textContent = memo.asunto || 'Comunicado interno';
+    const titulo = $('memo-titulo');
+    titulo.textContent = memo.titulo || '';
+    titulo.hidden = !memo.titulo;
+    $('memo-texto').textContent = memo.texto;
+    $('memo-lema').hidden = !memo.lema;
+    $('memo-pagina').textContent = estado.paginaMemo;
+
+    const boton = $('boton-memo');
+    detenerCuentaRegresiva();
+    if (memo.segundos > 0) {
+      boton.hidden = true;
+      $('memo-cuenta').hidden = false;
+      iniciarCuentaRegresiva(memo.segundos);
+    } else {
+      boton.hidden = false;
+      boton.textContent = memo.boton || 'Siguiente';
+      $('memo-cuenta').hidden = true;
+    }
+
     mostrarPantalla('memo');
+    $('memo-contenido').scrollTop = 0;
+    reproducirSonidoMemo();
+    if (!boton.hidden) boton.focus();
   }
 
   $('boton-memo').addEventListener('click', () => {
     if (estado.fase !== 'memo') return;
-    siguienteBloque();
+    const memo = estado.memos[estado.memoIndice];
+    const seguir = () => {
+      estado.memoIndice += 1;
+      if (estado.memoIndice < estado.memos.length) {
+        mostrarMemo();
+      } else if (estado.alTerminarMemos) {
+        estado.alTerminarMemos();
+      }
+    };
+    if (memo.glitch) {
+      mostrarGlitch(seguir);
+    } else {
+      seguir();
+    }
   });
 
-  // ---------- Resultado final ----------
+  function reproducirSonidoMemo() {
+    if (!sonidoMemo.getAttribute('src')) return;
+    try {
+      sonidoMemo.currentTime = 0;
+    } catch {
+      // Todavía no cargó; se reproduce desde el principio igual.
+    }
+    const promesa = sonidoMemo.play();
+    if (promesa) promesa.catch(() => {});
+  }
 
-  function mostrarFinal() {
-    const contar = (lista, resultado) => lista.filter((r) => r.resultado === resultado).length;
+  // Cuenta regresiva de los comunicados finales; al llegar a 0 vuelve al inicio.
+  function iniciarCuentaRegresiva(segundos) {
+    const fin = performance.now() + segundos * 1000;
+    const tiempo = $('memo-cuenta-tiempo');
+    const actualizar = () => {
+      const restante = (fin - performance.now()) / 1000;
+      tiempo.textContent = formatearTiempo(restante);
+      if (restante <= 0) volverAlInicio();
+    };
+    actualizar();
+    estado.cuentaRegresiva = setInterval(actualizar, 200);
+  }
 
-    const puntaje = $('final-puntaje');
-    puntaje.textContent = formatearPuntos(estado.puntaje);
-    puntaje.classList.toggle('negativo', estado.puntaje < 0);
-
-    $('final-aciertos').textContent = contar(estado.respuestas, 'acierto');
-    $('final-errores').textContent = contar(estado.respuestas, 'error');
-    $('final-sin-respuesta').textContent = contar(estado.respuestas, 'sinRespuesta');
-
-    $('final-total').textContent = formatearPuntos(estado.puntaje);
-
-    $('final-tabla-cuerpo').replaceChildren(
-      ...config.bloques.map((bloque, b) => {
-        const delBloque = estado.respuestas.filter((r) => r.bloque === b);
-        return crearFila([
-          bloque.nombre,
-          contar(delBloque, 'acierto'),
-          contar(delBloque, 'error'),
-          contar(delBloque, 'sinRespuesta'),
-          formatearPuntos(delBloque.reduce((suma, r) => suma + r.puntos, 0)),
-        ]);
-      })
-    );
-
-    mostrarPantalla('final');
+  function detenerCuentaRegresiva() {
+    if (estado.cuentaRegresiva !== null) {
+      clearInterval(estado.cuentaRegresiva);
+      estado.cuentaRegresiva = null;
+    }
   }
 
   // ---------- Bloqueos (RF-08) ----------
@@ -831,6 +1086,10 @@ const CONFIG = {
     }
 
     config = datos;
+    if (config.sonidoMemo) {
+      sonidoMemo.preload = 'auto';
+      sonidoMemo.src = `sonidos/${encodeURIComponent(config.sonidoMemo)}`;
+    }
     prepararCasos();
     videosFaltantes = await buscarVideosFaltantes();
     prepararInicio();

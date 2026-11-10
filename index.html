@@ -30,33 +30,19 @@
       </div>
     </section>
 
-    <!-- Inicio de sesión -->
+    <!-- Inicio: el Poder Judicial ha sido intervenido -->
     <section class="pantalla" id="pantalla-inicio" hidden>
-      <div class="ventana-retro ventana-login">
-        <div class="ventana-retro-titulo">Iniciar sesión</div>
+      <div class="ventana-retro ventana-intervencion">
+        <div class="ventana-retro-titulo" id="inicio-titulo">Comunicado oficial</div>
         <div class="ventana-retro-cuerpo">
-        <form class="panel-retro login" id="formulario-login" autocomplete="off" novalidate>
-          <p class="login-indicacion">Ingrese sus datos para acceder.</p>
-
-          <div class="login-error" id="login-error" role="alert" hidden>Usuario o contraseña incorrectos.</div>
-
-          <table class="login-campos">
-            <tr>
-              <th><label for="login-usuario">Usuario:</label></th>
-              <td><input type="text" class="campo-retro login-campo" id="login-usuario" name="usuario" autocomplete="off" spellcheck="false" autocapitalize="off"></td>
-            </tr>
-            <tr>
-              <th><label for="login-contrasena">Contraseña:</label></th>
-              <td><input type="password" class="campo-retro login-campo" id="login-contrasena" name="contrasena" autocomplete="off"></td>
-            </tr>
-            <tr>
-              <th></th>
-              <td><button type="submit" class="boton-retro">Ingresar</button></td>
-            </tr>
-          </table>
-
-          <div class="aviso-operador" id="aviso-operador" hidden></div>
-        </form>
+          <div class="panel-retro intervencion">
+            <p class="intervencion-texto" id="inicio-texto"></p>
+            <div class="intervencion-botones">
+              <button type="button" class="boton-retro boton-intervencion" id="boton-ok">OK</button>
+              <button type="button" class="boton-retro boton-intervencion" id="boton-no">NO</button>
+            </div>
+            <div class="aviso-operador" id="aviso-operador" hidden></div>
+          </div>
         </div>
       </div>
     </section>
@@ -176,45 +162,29 @@
           <span class="ventana-memo-menu" aria-hidden="true"></span>
           <span class="ventana-memo-nombre">Write - MEMO_Comunicación interna</span>
         </div>
-        <div class="memo">
+        <div class="memo" id="memo-contenido">
           <h2 class="memo-encabezado">Departamento de Juicios Rápidos</h2>
-          <p class="memo-subtitulo">Ajuste de desempeño<br>Fecha: <span id="memo-fecha"></span></p>
+          <p class="memo-subtitulo"><span id="memo-asunto"></span><br>Fecha: <span id="memo-fecha"></span></p>
+          <h3 class="memo-titulo" id="memo-titulo" hidden></h3>
           <p class="memo-texto" id="memo-texto"></p>
-          <p class="memo-lema">“Justicia rápida y eficiente para todos.”</p>
+          <p class="memo-lema" id="memo-lema">“Justicia rápida y eficiente para todos.”</p>
           <div class="memo-pie">
             <span class="memo-pagina">[Página <span id="memo-pagina"></span>]</span>
-            <button type="button" class="boton-retro memo-boton" id="boton-memo">Continuar</button>
+            <span class="memo-cuenta" id="memo-cuenta" role="timer" hidden>Tiempo restante: <span id="memo-cuenta-tiempo">0:30</span></span>
+            <button type="button" class="boton-retro memo-boton" id="boton-memo">Siguiente</button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Resultado final -->
-    <section class="pantalla" id="pantalla-final" hidden>
-      <div class="caja caja-angosta">
-        <div class="caja-titulo">Resultado final</div>
-        <div class="caja-cuerpo">
-          <div class="final-puntaje-caja">
-            <span class="final-etiqueta">Tu puntaje</span>
-            <span class="final-puntaje" id="final-puntaje">0</span>
-          </div>
+    <!-- Glitch (video a pantalla completa) -->
+    <section class="pantalla pantalla-video" id="pantalla-glitch" hidden>
+      <div class="reproductor-imagen">
+        <video id="video-glitch" playsinline preload="auto" disablepictureinpicture disableremoteplayback></video>
 
-          <table class="tabla">
-            <thead>
-              <tr><th>Bloque</th><th>Aciertos</th><th>Errores</th><th>Sin respuesta</th><th>Puntos</th></tr>
-            </thead>
-            <tbody id="final-tabla-cuerpo"></tbody>
-            <tfoot>
-              <tr>
-                <td>Total</td>
-                <td id="final-aciertos">0</td>
-                <td id="final-errores">0</td>
-                <td id="final-sin-respuesta">0</td>
-                <td id="final-total">0</td>
-              </tr>
-            </tfoot>
-          </table>
-
+        <div class="video-prueba" id="glitch-prueba" hidden>
+          <p class="video-prueba-etiqueta">Aquí va el video de glitch</p>
+          <p class="video-prueba-detalle">Guardarlo como videos/glitch.mp4</p>
         </div>
       </div>
     </section>
