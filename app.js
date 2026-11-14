@@ -15,17 +15,28 @@ const CONFIG = {
     "puntos": 10,
     "desdeBloque": 2
   },
-  // Sonido que acompaña a cada comunicado (carpeta "sonidos").
-  "sonidoMemo": "sonido_error_memo.mp3",
+  // Sonidos (carpeta "sonidos"):
+  //  "memo": notificación que suena al aparecer cada comunicado.
+  //  "musicaFondo": música en loop en la pantalla inicial (terminal verde) y en cada comunicado, después de la notificación.
+  //  "procesando": disco rígido mientras "La IA está revisando el desempeño".
+  "sonidos": {
+    "memo": "Computer-Notification-SnapYT.App.mp3",
+    "musicaFondo": "Elevator-Music-SnapYT.App.mp3",
+    "volumenMusica": 0.4,
+    "procesando": "Hard-Drive-Sound-36s_1.mp3"
+  },
+  // Segundos para elegir el próximo caso; si no se elige, se pone uno al azar.
+  "segundosSeleccion": 10,
+  // Duración de la pantalla "La IA está revisando el desempeño" (lo que dura el sonido del disco rígido).
+  "segundosProcesando": 36,
   // Video del glitch (carpeta "videos"). Si no está, se muestra un cartel durante "segundosPrueba".
   "glitch": {
     "archivo": "glitch.mp4",
     "segundosPrueba": 3
   },
-  // Primera pantalla, con los botones OK y NO.
+  // Primera pantalla (terminal verde), con las opciones SI y NO.
   "inicio": {
-    "titulo": "Comunicado oficial",
-    "texto": "ATENCIÓN\nPor disposición del Gobierno Nacional, el Poder Judicial ha sido intervenido.\n¿Acepta continuar en funciones?"
+    "texto": "En el marco del Plan Nacional de Optimización de Recursos Públicos y con el fin de garantizar una mayor eficiencia, el Poder Ejecutivo ha dispuesto la intervención directa del Poder Judicial.\n\nSi acepta trabajar en los nuevos términos marque SI. De lo contrario marque NO y abandone el recinto."
   },
   // Comunicados fuera de los bloques. "segundos": cuenta regresiva y vuelta al inicio (sin botón).
   "comunicados": {
@@ -65,8 +76,7 @@ const CONFIG = {
         }
       ],
       "notificacion": {
-        "titulo": "Terminaste el Bloque 1",
-        "mensaje": "Completaste los primeros 6 casos."
+        "titulo": "Terminaste el Bloque 1"
       },
       "videos": [
         { "archivo": "video01.mp4", "respuestaCorrecta": "inocente", "caso": "11765/5", "imagen": "", "motivo": "Las fotos prueban que no estuvo en el lugar del hecho", "inmigrante": false },
@@ -93,8 +103,7 @@ const CONFIG = {
         }
       ],
       "notificacion": {
-        "titulo": "Terminaste el Bloque 2",
-        "mensaje": "Completaste 12 de 24 casos."
+        "titulo": "Terminaste el Bloque 2"
       },
       "videos": [
         { "archivo": "video07.mp4", "respuestaCorrecta": "culpable", "caso": "61027/8", "imagen": "", "motivo": "Fue visto saliendo del lugar a la hora del hecho", "inmigrante": false },
@@ -117,8 +126,7 @@ const CONFIG = {
         }
       ],
       "notificacion": {
-        "titulo": "Terminaste el Bloque 3",
-        "mensaje": "Completaste 18 de 24 casos."
+        "titulo": "Terminaste el Bloque 3"
       },
       "videos": [
         { "archivo": "video13.mp4", "respuestaCorrecta": "culpable", "caso": "83725/2", "imagen": "", "motivo": "Los registros bancarios prueban el pago al cómplice", "inmigrante": false },
@@ -141,8 +149,7 @@ const CONFIG = {
         }
       ],
       "notificacion": {
-        "titulo": "Terminaste el Bloque 4",
-        "mensaje": "Terminaste los 24 casos."
+        "titulo": "Terminaste el Bloque 4"
       },
       // Videos provisorios: mientras no estén en la carpeta "videos" se muestra un video de prueba.
       "videos": [
@@ -166,8 +173,13 @@ const CONFIG = {
   const PAUSA_TRAS_RESPUESTA_MS = 900;
   // Cuánto queda a la vista la ventana "Penalización".
   const PAUSA_TIEMPO_AGOTADO_MS = 3000;
-  // Cuánto dura la pantalla "La IA está procesando..." al terminar un bloque.
-  const PAUSA_PROCESANDO_MS = 4000;
+  // Cuánto se ve la letra elegida (S/N) en la terminal inicial antes de seguir.
+  const PAUSA_RESPUESTA_INICIO_MS = 3000;
+  // Pantallas en las que suena la música de fondo.
+  // En los comunicados ("memo") arranca recién cuando termina el sonido de notificación.
+  const FASES_CON_MUSICA = ['inicio', 'memo'];
+  // Desde cuántos segundos restantes la cuenta de la selección se pone en rojo.
+  const SEGUNDOS_URGENCIA_SELECCION = 3;
   // Segundo del video que se usa como miniatura cuando el caso no tiene imagen.
   const SEGUNDO_MINIATURA = 1;
   // Desde cuántos segundos restantes el reloj se pone en rojo.
@@ -191,7 +203,26 @@ const CONFIG = {
 
   const video = $('video');
   const videoGlitch = $('video-glitch');
-  const sonidoMemo = new Audio();
+  const sonidos = {
+    memo: new Audio(),
+    musica: new Audio(),
+    procesando: new Audio(),
+  };
+  // La música de ascensor nunca termina: se repite en bucle mientras se está en una pantalla con música.
+  sonidos.musica.loop = true;
+  // Por las dudas, si igual llega al final, vuelve a empezar.
+  sonidos.musica.addEventListener('ended', () => {
+    if (musicaCorresponde()) reproducir(sonidos.musica, true);
+  });
+  // Mientras suena la notificación de un comunicado la música espera; al terminar, arranca.
+  let notificacionSonando = false;
+  function terminarNotificacion() {
+    if (!notificacionSonando) return;
+    notificacionSonando = false;
+    actualizarMusica();
+  }
+  sonidos.memo.addEventListener('ended', terminarNotificacion);
+  sonidos.memo.addEventListener('error', terminarNotificacion);
   const botonesVeredicto = Array.from(document.querySelectorAll('.boton-veredicto'));
 
   let config = null;
@@ -214,6 +245,9 @@ const CONFIG = {
     alTerminarMemos: null,
     paginaMemo: 0,
     cuentaRegresiva: null,
+    // Cuenta regresiva de la selección de casos
+    cuentaSeleccion: null,
+    inicioRespondido: false,
     // Glitch
     alTerminarGlitch: null,
     glitchTemporizador: null,
@@ -249,7 +283,58 @@ const CONFIG = {
     for (const [clave, elemento] of Object.entries(pantallas)) {
       elemento.hidden = clave !== fase;
     }
+    if (fase !== 'seleccion') detenerCuentaSeleccion();
+    if (fase !== 'procesando') sonidos.procesando.pause();
+    actualizarMusica();
   }
+
+  // ---------- Sonidos ----------
+
+  function cargarSonido(audio, archivo) {
+    if (!archivo) return;
+    audio.preload = 'auto';
+    audio.src = `sonidos/${encodeURIComponent(archivo)}`;
+  }
+
+  // "alFallar" se llama si el navegador no deja reproducir el sonido.
+  function reproducir(audio, desdeElPrincipio, alFallar) {
+    if (!audio.getAttribute('src')) return;
+    if (desdeElPrincipio) {
+      try {
+        audio.currentTime = 0;
+      } catch {
+        // Todavía no cargó; se reproduce desde el principio igual.
+      }
+    }
+    const promesa = audio.play();
+    if (promesa) promesa.catch(() => { if (alFallar) alFallar(); });
+  }
+
+  function musicaCorresponde() {
+    if (!FASES_CON_MUSICA.includes(estado.fase)) return false;
+    // En un comunicado, primero la notificación y después la música.
+    return !(estado.fase === 'memo' && notificacionSonando);
+  }
+
+  // La música suena en la pantalla inicial y en los comunicados (después de la notificación);
+  // al salir se corta y la próxima vez empieza de nuevo.
+  function actualizarMusica() {
+    if (musicaCorresponde()) {
+      if (sonidos.musica.paused) reproducir(sonidos.musica, false);
+    } else if (!sonidos.musica.paused) {
+      sonidos.musica.pause();
+      try {
+        sonidos.musica.currentTime = 0;
+      } catch {
+        // Todavía no cargó.
+      }
+    }
+  }
+
+  // El navegador no deja reproducir sonido hasta que el usuario toca algo:
+  // en cuanto lo hace, arranca la música si corresponde.
+  document.addEventListener('pointerdown', actualizarMusica, true);
+  document.addEventListener('keydown', actualizarMusica, true);
 
   // Pantalla completa del navegador. Solo se puede pedir tras un clic o tecla del usuario.
   function entrarPantallaCompleta() {
@@ -408,10 +493,10 @@ const CONFIG = {
       aviso.hidden = true;
     }
 
-    $('inicio-titulo').textContent = config.inicio.titulo || 'Comunicado oficial';
     $('inicio-texto').textContent = config.inicio.texto;
+    $('inicio-respuesta').textContent = '';
+    estado.inicioRespondido = false;
     mostrarPantalla('inicio');
-    $('boton-ok').focus();
   }
 
   // Deja todo listo para un nuevo grupo de jurados.
@@ -429,18 +514,31 @@ const CONFIG = {
     estado.paginaMemo = 0;
   }
 
-  $('boton-ok').addEventListener('click', () => {
-    if (estado.fase !== 'inicio') return;
+  // La letra elegida queda escrita en la terminal un instante antes de seguir.
+  function responderInicio(acepta) {
+    if (estado.fase !== 'inicio' || estado.inicioRespondido) return;
+    estado.inicioRespondido = true;
     entrarPantallaCompleta();
-    reiniciarPartida();
-    comenzarBloque();
-  });
+    $('inicio-respuesta').textContent = acepta ? 'S' : 'N';
+    setTimeout(() => {
+      if (estado.fase !== 'inicio') return;
+      reiniciarPartida();
+      if (acepta) {
+        comenzarBloque();
+      } else {
+        mostrarMemos([config.comunicados.rechazo], null);
+      }
+    }, PAUSA_RESPUESTA_INICIO_MS);
+  }
 
-  $('boton-no').addEventListener('click', () => {
-    if (estado.fase !== 'inicio') return;
-    entrarPantallaCompleta();
-    reiniciarPartida();
-    mostrarMemos([config.comunicados.rechazo], null);
+  $('boton-ok').addEventListener('click', () => responderInicio(true));
+  $('boton-no').addEventListener('click', () => responderInicio(false));
+
+  document.addEventListener('keydown', (e) => {
+    if (estado.fase !== 'inicio' || e.ctrlKey || e.metaKey || e.altKey || e.repeat) return;
+    const tecla = e.key.toLowerCase();
+    if (tecla === 's' || tecla === 'o') responderInicio(true);
+    else if (tecla === 'n') responderInicio(false);
   });
 
   function volverAlInicio() {
@@ -512,6 +610,46 @@ const CONFIG = {
     $('seleccion-avance').textContent = `Casos vistos: ${vistos} de ${delBloque.length}`;
     $('galeria').replaceChildren(...delBloque.map(crearMiniatura));
     mostrarPantalla('seleccion');
+    iniciarCuentaSeleccion(config.segundosSeleccion || 10);
+  }
+
+  // Si no se elige un caso a tiempo, se pone uno de los que faltan al azar.
+  function iniciarCuentaSeleccion(segundos) {
+    const fin = performance.now() + segundos * 1000;
+    const cuenta = $('seleccion-cuenta');
+    const tiempo = $('seleccion-cuenta-tiempo');
+    let ultimoMostrado = null;
+
+    const actualizar = () => {
+      if (estado.fase !== 'seleccion') {
+        detenerCuentaSeleccion();
+        return;
+      }
+      const restante = Math.max(0, Math.ceil((fin - performance.now()) / 1000));
+      if (restante !== ultimoMostrado) {
+        ultimoMostrado = restante;
+        tiempo.textContent = restante;
+        cuenta.classList.toggle('urgente', restante <= SEGUNDOS_URGENCIA_SELECCION);
+      }
+      if (restante <= 0) {
+        detenerCuentaSeleccion();
+        const pendientes = casosDelBloque(estado.bloque).filter((caso) => !respuestaDe(caso));
+        if (pendientes.length > 0) {
+          elegirCaso(pendientes[Math.floor(Math.random() * pendientes.length)]);
+        }
+      }
+    };
+
+    detenerCuentaSeleccion();
+    actualizar();
+    estado.cuentaSeleccion = setInterval(actualizar, 100);
+  }
+
+  function detenerCuentaSeleccion() {
+    if (estado.cuentaSeleccion !== null) {
+      clearInterval(estado.cuentaSeleccion);
+      estado.cuentaSeleccion = null;
+    }
   }
 
   // Los casos ya vistos quedan bloqueados.
@@ -557,13 +695,10 @@ const CONFIG = {
 
   function reproducirCaso() {
     const caso = casoActual();
-    const bloque = config.bloques[caso.bloque];
 
     mostrarPantalla('video');
-    $('video-titulo').textContent = `${caso.nombre} — ${bloque.nombre}`;
     $('boton-reproducir').hidden = true;
     $('video-prueba').hidden = true;
-    actualizarBarraVideo(0, 0);
 
     if (videosFaltantes.has(caso.archivo)) {
       simularVideo(caso);
@@ -589,20 +724,11 @@ const CONFIG = {
   }
 
   function descargarVideo() {
+    clearTimeout(estado.simulacion);
+    estado.simulacion = null;
     video.pause();
     video.removeAttribute('src');
     video.load();
-  }
-
-  function actualizarBarraVideo(actual, total) {
-    const duracion = Number.isFinite(total) ? total : 0;
-    $('video-avance').style.width = duracion > 0 ? `${Math.min(100, (actual / duracion) * 100)}%` : '0%';
-    $('video-tiempo').textContent = `${formatearReloj(actual)} / ${formatearReloj(duracion)}`;
-  }
-
-  function formatearReloj(segundos) {
-    const s = Math.max(0, Math.floor(segundos));
-    return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
   }
 
   function simularVideo(caso) {
@@ -610,16 +736,11 @@ const CONFIG = {
     $('video-prueba-detalle').textContent = `No se encontró el archivo videos/${caso.archivo}`;
     $('video-prueba').hidden = false;
 
-    const inicio = performance.now();
-    estado.simulacion = setInterval(() => {
-      const transcurrido = (performance.now() - inicio) / 1000;
-      actualizarBarraVideo(Math.min(transcurrido, SEGUNDOS_VIDEO_PRUEBA), SEGUNDOS_VIDEO_PRUEBA);
-      if (transcurrido >= SEGUNDOS_VIDEO_PRUEBA) {
-        clearInterval(estado.simulacion);
-        estado.simulacion = null;
-        if (estado.fase === 'video') abrirDecision();
-      }
-    }, 100);
+    clearTimeout(estado.simulacion);
+    estado.simulacion = setTimeout(() => {
+      estado.simulacion = null;
+      if (estado.fase === 'video') abrirDecision();
+    }, SEGUNDOS_VIDEO_PRUEBA * 1000);
   }
 
   video.addEventListener('ended', () => {
@@ -638,11 +759,6 @@ const CONFIG = {
 
   video.addEventListener('timeupdate', () => {
     if (!video.seeking) estado.ultimoTiempoVideo = video.currentTime;
-    if (estado.fase === 'video') actualizarBarraVideo(video.currentTime, video.duration);
-  });
-
-  video.addEventListener('loadedmetadata', () => {
-    if (estado.fase === 'video') actualizarBarraVideo(0, video.duration);
   });
 
   // No se puede adelantar ni retroceder.
@@ -869,16 +985,19 @@ const CONFIG = {
 
   // ---------- Procesamiento e informe del bloque ----------
 
+  // "La IA está revisando el desempeño", con el sonido del disco rígido de fondo.
   function procesarBloque() {
+    const duracionMs = (config.segundosProcesando || 36) * 1000;
     const relleno = $('procesando-relleno');
     descargarVideo();
     relleno.style.transition = 'none';
     relleno.style.width = '0';
     mostrarPantalla('procesando');
+    reproducir(sonidos.procesando, true);
     void relleno.offsetWidth; // aplica el ancho inicial antes de animar
-    relleno.style.transition = `width ${PAUSA_PROCESANDO_MS}ms linear`;
+    relleno.style.transition = `width ${duracionMs}ms linear`;
     relleno.style.width = '100%';
-    setTimeout(mostrarInforme, PAUSA_PROCESANDO_MS);
+    setTimeout(mostrarInforme, duracionMs);
   }
 
   const VEREDICTOS = {
@@ -893,11 +1012,12 @@ const CONFIG = {
     const notificacion = bloque.notificacion || {};
     const reemplazar = (texto) => String(texto || '').replaceAll('{puntaje}', formatearPuntos(estado.puntaje));
 
-    $('informe-encabezado').textContent = `${bloque.nombre} completado`;
     $('informe-titulo').textContent = reemplazar(notificacion.titulo) || `Terminaste el ${bloque.nombre}`;
     $('informe-lista').replaceChildren(...casosDelBloque(estado.bloque).map(crearFilaInforme));
     $('informe-creditos').textContent = formatearCreditos(estado.puntaje);
-    $('informe-mensaje').textContent = reemplazar(notificacion.mensaje);
+    const mensaje = $('informe-mensaje');
+    mensaje.textContent = reemplazar(notificacion.mensaje);
+    mensaje.hidden = mensaje.textContent === '';
     mostrarPantalla('informe');
   }
 
@@ -924,7 +1044,9 @@ const CONFIG = {
 
     const etiqueta = document.createElement('span');
     etiqueta.className = `informe-veredicto ${veredicto.clase}`;
-    etiqueta.textContent = veredicto.texto;
+    etiqueta.textContent = respuesta.resultado === 'error'
+      ? `${veredicto.texto} ${formatearPuntos(config.puntos.error)} créditos`
+      : veredicto.texto;
     texto.append(' ', etiqueta);
 
     if (respuesta.bono > 0) {
@@ -990,9 +1112,12 @@ const CONFIG = {
       $('memo-cuenta').hidden = true;
     }
 
+    // Cada comunicado: la música se corta, suena la notificación y al terminar vuelve la música
+    // desde el principio.
+    notificacionSonando = Boolean(sonidos.memo.getAttribute('src'));
     mostrarPantalla('memo');
     $('memo-contenido').scrollTop = 0;
-    reproducirSonidoMemo();
+    if (notificacionSonando) reproducir(sonidos.memo, true, terminarNotificacion);
     if (!boton.hidden) boton.focus();
   }
 
@@ -1013,17 +1138,6 @@ const CONFIG = {
       seguir();
     }
   });
-
-  function reproducirSonidoMemo() {
-    if (!sonidoMemo.getAttribute('src')) return;
-    try {
-      sonidoMemo.currentTime = 0;
-    } catch {
-      // Todavía no cargó; se reproduce desde el principio igual.
-    }
-    const promesa = sonidoMemo.play();
-    if (promesa) promesa.catch(() => {});
-  }
 
   // Cuenta regresiva de los comunicados finales; al llegar a 0 vuelve al inicio.
   function iniciarCuentaRegresiva(segundos) {
@@ -1086,9 +1200,12 @@ const CONFIG = {
     }
 
     config = datos;
-    if (config.sonidoMemo) {
-      sonidoMemo.preload = 'auto';
-      sonidoMemo.src = `sonidos/${encodeURIComponent(config.sonidoMemo)}`;
+    const archivos = config.sonidos || {};
+    cargarSonido(sonidos.memo, archivos.memo);
+    cargarSonido(sonidos.musica, archivos.musicaFondo);
+    cargarSonido(sonidos.procesando, archivos.procesando);
+    if (typeof archivos.volumenMusica === 'number') {
+      sonidos.musica.volume = Math.min(1, Math.max(0, archivos.volumenMusica));
     }
     prepararCasos();
     videosFaltantes = await buscarVideosFaltantes();

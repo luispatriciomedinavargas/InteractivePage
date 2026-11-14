@@ -31,19 +31,20 @@
     </section>
 
     <!-- Inicio: el Poder Judicial ha sido intervenido -->
-    <section class="pantalla" id="pantalla-inicio" hidden>
-      <div class="ventana-retro ventana-intervencion">
-        <div class="ventana-retro-titulo" id="inicio-titulo">Comunicado oficial</div>
-        <div class="ventana-retro-cuerpo">
-          <div class="panel-retro intervencion">
-            <p class="intervencion-texto" id="inicio-texto"></p>
-            <div class="intervencion-botones">
-              <button type="button" class="boton-retro boton-intervencion" id="boton-ok">OK</button>
-              <button type="button" class="boton-retro boton-intervencion" id="boton-no">NO</button>
-            </div>
-            <div class="aviso-operador" id="aviso-operador" hidden></div>
+    <!-- Terminal de fósforo verde. Se responde con las teclas S / N o con los botones. -->
+    <section class="pantalla pantalla-terminal" id="pantalla-inicio" hidden>
+      <div class="terminal">
+        <p class="terminal-texto" id="inicio-texto"></p>
+        <div class="terminal-pie">
+          <p class="terminal-pregunta">
+            Seleccione una opción (S/N):&nbsp;<span id="inicio-respuesta"></span><span class="terminal-cursor" aria-hidden="true"></span>
+          </p>
+          <div class="terminal-botones">
+            <button type="button" class="terminal-boton" id="boton-ok">[ SI ]</button>
+            <button type="button" class="terminal-boton" id="boton-no">[ NO ]</button>
           </div>
         </div>
+        <p class="terminal-aviso" id="aviso-operador" hidden></p>
       </div>
     </section>
 
@@ -53,8 +54,14 @@
         <div class="ventana-retro-titulo" id="seleccion-titulo">Bloque 1</div>
         <div class="ventana-retro-cuerpo">
           <div class="panel-retro seleccion-cabecera">
-            <h2>Elegí el caso que querés ver</h2>
-            <span class="seleccion-avance" id="seleccion-avance">Casos vistos: 0 de 6</span>
+            <div>
+              <h2>Seleccione el próximo caso</h2>
+              <span class="seleccion-avance" id="seleccion-avance">Casos vistos: 0 de 6</span>
+            </div>
+            <div class="seleccion-cuenta" id="seleccion-cuenta" role="timer">
+              <span class="seleccion-cuenta-etiqueta">Cuenta regresiva</span>
+              <span class="campo-retro seleccion-cuenta-lcd"><span id="seleccion-cuenta-tiempo">10</span> s</span>
+            </div>
           </div>
           <div class="galeria" id="galeria"></div>
         </div>
@@ -72,13 +79,6 @@
         </div>
 
         <button type="button" class="boton boton-azul boton-reproducir" id="boton-reproducir" hidden>&#9658; Reproducir</button>
-      </div>
-
-      <div class="reproductor-controles" aria-hidden="true">
-        <span class="reproductor-icono">&#9658;</span>
-        <span class="reproductor-caso" id="video-titulo">Caso 1 de 18</span>
-        <span class="reproductor-pista"><span class="reproductor-avance" id="video-avance"></span></span>
-        <span class="reproductor-tiempo" id="video-tiempo">0:00 / 0:00</span>
       </div>
     </section>
 
@@ -140,13 +140,13 @@
     <!-- Informe del bloque -->
     <section class="pantalla" id="pantalla-informe" hidden>
       <div class="ventana-retro ventana-informe">
-        <div class="ventana-retro-titulo" id="informe-encabezado">Bloque 1 completado</div>
+        <div class="ventana-retro-titulo">Informe de desempeño</div>
         <div class="ventana-retro-cuerpo">
           <div class="panel-retro informe-panel">
             <h2 id="informe-titulo"></h2>
             <ul class="informe" id="informe-lista"></ul>
             <p class="campo-retro informe-creditos">Créditos acumulados: <span id="informe-creditos">0</span></p>
-            <p class="notificacion-mensaje" id="informe-mensaje"></p>
+            <p class="notificacion-mensaje" id="informe-mensaje" hidden></p>
             <div class="centrado">
               <button type="button" class="boton-retro" id="boton-continuar">Continuar &raquo;</button>
             </div>
